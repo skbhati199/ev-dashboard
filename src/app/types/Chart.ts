@@ -35,5 +35,6 @@ export enum ConsumptionChartDatasetOrder {
 export enum ChartTypeValues {
   PIE = 'pie',
   BAR = 'bar',
-  STACKED_BAR = 'stackedBar'
+  STACKED_BAR = 'stackedBar',
+  LINE = 'line',
 };

@@ -17,13 +17,10 @@ export class DashboardChartListComponent{
   public chartCards: ChartCard[] = [];
   public fillerCardColSpanSize: number;
 
-  private serviceList = {};
-
   public constructor(
     centralServerService: CentralServerService,
     authorizationService: AuthorizationService
   ){
-    this.serviceListcentralServerService, authorizationService);
     this.numberCards.push(
       new ChargingStationErrorCardComponent(centralServerService, authorizationService),
       new AssetErrorCardComponent(centralServerService, authorizationService),
