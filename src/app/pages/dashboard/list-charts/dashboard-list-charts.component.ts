@@ -1,12 +1,11 @@
 import { Component } from '@angular/core';
 import { AuthorizationService } from 'services/authorization.service';
 import { CentralServerService } from 'services/central-server.service';
-import { ChartTypeValues } from 'types/Chart';
-import { ChartCard, NumberCard } from 'types/Dashboard';
+import { ChartCard } from 'types/Dashboard';
 
+import { AssetErrorCardComponent } from './number-cards/number-card-asset-error-count';
 import { NumberCardBaseComponent } from './number-cards/number-card-base.component';
 import { ChargingStationErrorCardComponent } from './number-cards/number-card-charging-station-error-count';
-import { AssetErrorCardComponent } from './number-cards/number-card-charging-station-error-count copy';
 
 @Component({
   selector: 'app-dashboard-list-charts',

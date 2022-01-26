@@ -16,7 +16,6 @@ export class AssetErrorCardComponent extends NumberCardBaseComponent {
     super();
     if (authorizationService.canAccess(Entity.ASSET, Action.LIST)){
       centralServerService.getAssetsInError(filterParams).subscribe((assets) => {
-        console.log(assets);
         let cardType: CardTypes;
         if (assets.count > 0) {
           cardType = CardTypes.DANGER;
@@ -25,18 +24,18 @@ export class AssetErrorCardComponent extends NumberCardBaseComponent {
         }
         super.setDetails({
           display: true,
-          title: 'Charging stations in error',
+          title: 'Assets in error',
           description: assets.count.toString(),
-          icon: 'ev_station',
+          icon: 'account_balance',
           type: cardType,
           details: assets.result
         });
       }, (error) => {
         super.setDetails({
           display: false,
-          title: 'Charging stations in error',
+          title: 'Assets in error',
           description:  'err',
-          icon:  'ev_station',
+          icon:  'account_balance',
           type:  CardTypes.PRIMARY,
           details: []
         });

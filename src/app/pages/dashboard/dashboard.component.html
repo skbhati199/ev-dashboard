@@ -1,21 +1,33 @@
 <div class="main-content">
-  <mat-tab-group (selectedIndexChange)="updateRoute($event)" [selectedIndex]="activeTabIndex" animationDuration="0ms"
-    disableRipple="true" class="h-100 mat-tab-info">
-    <mat-tab>
-      <ng-template mat-tab-label>
-        <mat-icon>business</mat-icon><span>All</span>
-      </ng-template>
-      <ng-template matTabContent>
-        <app-dashboard-list-charts></app-dashboard-list-charts>
-      </ng-template>
-    </mat-tab>
-    <mat-tab *ngFor="let siteArea of siteAreas">
-      <ng-template mat-tab-label>
-        <mat-icon>view_week</mat-icon><span>{{ siteArea.name }}</span>
-      </ng-template>
-      <ng-template matTabContent>
-        <app-dashboard-list-charts></app-dashboard-list-charts>
-      </ng-template>
-    </mat-tab>
-  </mat-tab-group>
+  <div class="d-flex flex-row me-auto flex-wrap mat-toolbar-row filter-row">
+    <ng-template ngFor let-filterDef [ngForOf]="tableFiltersDef">
+      <div *ngIf="filterDef.visible !== false" [class]="(filterDef.class ? filterDef.class : '')">
+        <!-- Dropdown Filter -->
+        <mat-form-field *ngIf="filterDef.type === FilterType.DROPDOWN && !filterDef.multiple">
+          <mat-select (selectionChange)="filterChanged(filterDef)" [(value)]="filterDef.currentValue"
+            [placeholder]="filterDef.name | translate">
+            <mat-option *ngFor="let item of filterDef.items" [value]="item.key">{{item.value | translate}}
+            </mat-option>
+          </mat-select>
+        </mat-form-field>
+        <!-- Dropdown Filter with multiple selections-->
+        <mat-form-field *ngIf="filterDef.type === FilterType.DROPDOWN && filterDef.multiple">
+          <mat-select (selectionChange)="filterChanged(filterDef)" [(value)]="filterDef.currentValue"
+            [placeholder]="filterDef.name | translate" multiple disableRipple>
+            <mat-select-trigger>{{filterDef.label}}</mat-select-trigger>
+            <mat-option *ngFor="let item of filterDef.items" [value]="item">{{item.value | translate}}</mat-option>
+          </mat-select>
+        </mat-form-field>
+        <!-- Dialog Table Filter with multiple selections-->
+        <mat-form-field *ngIf="filterDef.type === FilterType.DIALOG_TABLE && filterDef.multiple">
+          <input (click)="showDialogTableFilter(filterDef)" [placeholder]="filterDef.name | translate"
+            [value]="filterDef.label" class="form-field-popup" matInput readonly=true type="text" />
+          <button mat-icon-button matSuffix (click)="resetDialogTableFilter(filterDef)" aria-label="Clear">
+            <mat-icon>clear</mat-icon>
+          </button>
+        </mat-form-field>
+      </div>
+    </ng-template>
+  </div>
+  <app-dashboard-list-charts></app-dashboard-list-charts>
 </div>
