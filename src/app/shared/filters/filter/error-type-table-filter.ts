@@ -1,12 +1,13 @@
-import { TableFilter } from '../../../shared/table/filters/table-filter';
-import { KeyValue } from '../../../types/GlobalType';
-import { FilterType, TableFilterDef } from '../../../types/Table';
+import { FilterDef, FilterType } from 'types/Filters';
 
-export class ErrorTypeTableFilter extends TableFilter {
+import { KeyValue } from '../../../types/GlobalType';
+import { BaseFilter } from './base-filter';
+
+export class ErrorTypeTableFilter extends BaseFilter {
   public constructor(types: KeyValue[]) {
     super();
     // Define filter
-    const filterDef: TableFilterDef = {
+    const filterDef: FilterDef = {
       id: 'errorType',
       httpId: 'ErrorType',
       type: FilterType.DROPDOWN,

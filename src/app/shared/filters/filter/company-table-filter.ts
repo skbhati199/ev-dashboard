@@ -1,12 +1,13 @@
-import { FilterType, TableFilterDef } from '../../../types/Table';
-import { CompaniesDialogComponent } from '../../dialogs/companies/companies-dialog.component';
-import { TableFilter } from './table-filter';
+import { FilterDef, FilterType } from 'types/Filters';
 
-export class CompanyTableFilter extends TableFilter {
-  public constructor(dependentFilters?: TableFilterDef[]) {
+import { CompaniesDialogComponent } from '../../dialogs/companies/companies-dialog.component';
+import { BaseFilter } from './base-filter';
+
+export class CompanyTableFilter extends BaseFilter {
+  public constructor(dependentFilters?: FilterDef[]) {
     super();
     // Define filter
-    const filterDef: TableFilterDef = {
+    const filterDef: FilterDef = {
       id: 'companies',
       httpId: 'CompanyID',
       type: FilterType.DIALOG_TABLE,

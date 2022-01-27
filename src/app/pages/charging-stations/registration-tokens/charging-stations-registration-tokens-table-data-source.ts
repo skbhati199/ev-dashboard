@@ -4,8 +4,6 @@ import { Router } from '@angular/router';
 import { TranslateService } from '@ngx-translate/core';
 import * as moment from 'moment';
 import { Observable } from 'rxjs';
-import { IssuerFilter } from 'shared/table/filters/issuer-filter';
-import { SiteAreaTableFilter } from 'shared/table/filters/site-area-table-filter';
 import { AuthorizationDefinitionFieldMetadata } from 'types/Authorization';
 
 import { CentralServerService } from '../../../services/central-server.service';
@@ -13,6 +11,8 @@ import { ComponentService } from '../../../services/component.service';
 import { DialogService } from '../../../services/dialog.service';
 import { MessageService } from '../../../services/message.service';
 import { SpinnerService } from '../../../services/spinner.service';
+import { IssuerFilter } from '../../../shared/filters/filter/issuer-filter';
+import { SiteAreaTableFilter } from '../../../shared/filters/filter/site-area-table-filter';
 import { AppDatePipe } from '../../../shared/formatters/app-date.pipe';
 import { TableCreateRegistrationTokenAction, TableCreateRegistrationTokenActionDef } from '../../../shared/table/actions/charging-stations/table-create-registration-token-action';
 import { TableDeleteRegistrationTokenAction, TableDeleteRegistrationTokenActionDef } from '../../../shared/table/actions/charging-stations/table-delete-registration-token-action';
@@ -25,8 +25,9 @@ import { TableMultiCopyAction } from '../../../shared/table/actions/table-multi-
 import { TableRefreshAction } from '../../../shared/table/actions/table-refresh-action';
 import { TableDataSource } from '../../../shared/table/table-data-source';
 import { DataResult } from '../../../types/DataResult';
+import { FilterDef } from '../../../types/Filters';
 import { RegistrationToken, RegistrationTokenButtonAction } from '../../../types/RegistrationToken';
-import { TableActionDef, TableColumnDef, TableDef, TableFilterDef } from '../../../types/Table';
+import { TableActionDef, TableColumnDef, TableDef } from '../../../types/Table';
 import { TenantComponents } from '../../../types/Tenant';
 import { User } from '../../../types/User';
 import { Utils } from '../../../utils/Utils';
@@ -272,7 +273,7 @@ export class ChargingStationsRegistrationTokensTableDataSource extends TableData
     ];
   }
 
-  public buildTableFiltersDef(): TableFilterDef[] {
+  public buildTableFiltersDef(): FilterDef[] {
     const issuerFilter = new IssuerFilter().getFilterDef();
     if (this.componentService.isActive(TenantComponents.ORGANIZATION)) {
       return [new SiteAreaTableFilter([issuerFilter]).getFilterDef()];

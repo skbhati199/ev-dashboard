@@ -1,12 +1,13 @@
-import { TRANSACTION_INVOICE_STATUS } from '../../../shared/model/transactions-invoices.model';
-import { TableFilter } from '../../../shared/table/filters/table-filter';
-import { FilterType, TableFilterDef } from '../../../types/Table';
+import { BaseFilter } from 'shared/filters/filter/base-filter';
+import { FilterDef, FilterType } from 'types/Filters';
 
-export class InvoiceStatusFilter extends TableFilter {
+import { TRANSACTION_INVOICE_STATUS } from '../../../shared/model/transactions-invoices.model';
+
+export class InvoiceStatusFilter extends BaseFilter {
   public constructor() {
     super();
     // Define filter
-    const filterDef: TableFilterDef = {
+    const filterDef: FilterDef = {
       id: 'status',
       httpId: 'Status',
       type: FilterType.DROPDOWN,

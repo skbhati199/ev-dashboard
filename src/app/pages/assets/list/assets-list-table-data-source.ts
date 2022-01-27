@@ -4,8 +4,6 @@ import { Router } from '@angular/router';
 import { TranslateService } from '@ngx-translate/core';
 import { Observable } from 'rxjs';
 import { ComponentService } from 'services/component.service';
-import { SiteAreaTableFilter } from 'shared/table/filters/site-area-table-filter';
-import { SiteTableFilter } from 'shared/table/filters/site-table-filter';
 import { TenantComponents } from 'types/Tenant';
 
 import { AuthorizationService } from '../../../services/authorization.service';
@@ -13,6 +11,9 @@ import { CentralServerService } from '../../../services/central-server.service';
 import { DialogService } from '../../../services/dialog.service';
 import { MessageService } from '../../../services/message.service';
 import { SpinnerService } from '../../../services/spinner.service';
+import { IssuerFilter } from '../../../shared/filters/filter/issuer-filter';
+import { SiteAreaTableFilter } from '../../../shared/filters/filter/site-area-table-filter';
+import { SiteTableFilter } from '../../../shared/filters/filter/site-table-filter';
 import { TableCreateAssetAction, TableCreateAssetActionDef } from '../../../shared/table/actions/assets/table-create-asset-action';
 import { TableDeleteAssetAction, TableDeleteAssetActionDef } from '../../../shared/table/actions/assets/table-delete-asset-action';
 import { TableEditAssetAction, TableEditAssetActionDef } from '../../../shared/table/actions/assets/table-edit-asset-action';
@@ -22,12 +23,12 @@ import { TableAutoRefreshAction } from '../../../shared/table/actions/table-auto
 import { TableMoreAction } from '../../../shared/table/actions/table-more-action';
 import { TableOpenInMapsAction } from '../../../shared/table/actions/table-open-in-maps-action';
 import { TableRefreshAction } from '../../../shared/table/actions/table-refresh-action';
-import { IssuerFilter } from '../../../shared/table/filters/issuer-filter';
 import { TableDataSource } from '../../../shared/table/table-data-source';
 import { Asset, AssetButtonAction, AssetType } from '../../../types/Asset';
 import { AssetDataResult } from '../../../types/DataResult';
+import { FilterDef } from '../../../types/Filters';
 import { ButtonAction } from '../../../types/GlobalType';
-import { TableActionDef, TableColumnDef, TableDef, TableFilterDef } from '../../../types/Table';
+import { TableActionDef, TableColumnDef, TableDef } from '../../../types/Table';
 import { Constants } from '../../../utils/Constants';
 import { Utils } from '../../../utils/Utils';
 import { AssetDialogComponent } from '../asset/asset-dialog.component';
@@ -41,9 +42,9 @@ export class AssetsListTableDataSource extends TableDataSource<Asset> {
   private deleteAction = new TableDeleteAssetAction().getActionDef();
   private displayAction = new TableViewAssetAction().getActionDef();
   private retrieveConsumptionAction = new TableRetrieveAssetConsumptionAction().getActionDef();
-  private issuerFilter: TableFilterDef;
-  private siteFilter: TableFilterDef;
-  private siteAreaFilter: TableFilterDef;
+  private issuerFilter: FilterDef;
+  private siteFilter: FilterDef;
+  private siteAreaFilter: FilterDef;
 
   public constructor(
     public spinnerService: SpinnerService,
@@ -271,7 +272,7 @@ export class AssetsListTableDataSource extends TableDataSource<Asset> {
     ];
   }
 
-  public buildTableFiltersDef(): TableFilterDef[] {
+  public buildTableFiltersDef(): FilterDef[] {
     this.issuerFilter = new IssuerFilter().getFilterDef();
     this.siteFilter = new SiteTableFilter([this.issuerFilter]).getFilterDef();
     this.siteAreaFilter = new SiteAreaTableFilter([this.issuerFilter, this.siteFilter]).getFilterDef();
@@ -279,7 +280,7 @@ export class AssetsListTableDataSource extends TableDataSource<Asset> {
     this.siteFilter.visible = false;
     this.siteAreaFilter.visible = false;
     // Create filters
-    const filters: TableFilterDef[] = [
+    const filters: FilterDef[] = [
       this.issuerFilter,
       this.siteFilter,
       this.siteAreaFilter

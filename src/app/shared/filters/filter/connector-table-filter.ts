@@ -1,13 +1,13 @@
 import { CONNECTORS } from 'shared/model/charging-stations.model';
+import { FilterDef, FilterType } from 'types/Filters';
 
-import { TableFilter } from '../../../shared/table/filters/table-filter';
-import { FilterType, TableFilterDef } from '../../../types/Table';
+import { BaseFilter } from './base-filter';
 
-export class ConnectorTableFilter extends TableFilter {
+export class ConnectorTableFilter extends BaseFilter {
   public constructor() {
     super();
     // Define filter
-    const filterDef: TableFilterDef = {
+    const filterDef: FilterDef = {
       id: 'connector',
       httpId: 'ConnectorID',
       type: FilterType.DROPDOWN,

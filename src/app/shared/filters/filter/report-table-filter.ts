@@ -1,14 +1,15 @@
-import { FilterType, TableFilterDef } from '../../../types/Table';
+import { FilterDef, FilterType } from 'types/Filters';
+
 import { ReportsDialogComponent } from '../../dialogs/reports/reports-dialog.component';
-import { TableFilter } from './table-filter';
+import { BaseFilter } from './base-filter';
 
 // Sort table by reports ID
-export class ReportTableFilter extends TableFilter {
+export class ReportTableFilter extends BaseFilter {
   public constructor() {
     super();
 
     // Define filter
-    const filterDef: TableFilterDef = {
+    const filterDef: FilterDef = {
       id: 'refundData',
       httpId: 'ReportIDs',
       type: FilterType.DIALOG_TABLE,

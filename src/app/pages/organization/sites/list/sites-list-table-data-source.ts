@@ -15,6 +15,8 @@ import { CentralServerService } from '../../../../services/central-server.servic
 import { DialogService } from '../../../../services/dialog.service';
 import { MessageService } from '../../../../services/message.service';
 import { SpinnerService } from '../../../../services/spinner.service';
+import { CompanyTableFilter } from '../../../../shared/filters/filter/company-table-filter';
+import { IssuerFilter } from '../../../../shared/filters/filter/issuer-filter';
 import { AppDatePipe } from '../../../../shared/formatters/app-date.pipe';
 import { TableExportOCPPParamsAction, TableExportOCPPParamsActionDef } from '../../../../shared/table/actions/charging-stations/table-export-ocpp-params-action';
 import { TableAssignUsersToSiteAction, TableAssignUsersToSiteActionDef } from '../../../../shared/table/actions/sites/table-assign-users-to-site-action';
@@ -27,14 +29,13 @@ import { TableAutoRefreshAction } from '../../../../shared/table/actions/table-a
 import { TableMoreAction } from '../../../../shared/table/actions/table-more-action';
 import { TableOpenInMapsAction } from '../../../../shared/table/actions/table-open-in-maps-action';
 import { TableRefreshAction } from '../../../../shared/table/actions/table-refresh-action';
-import { CompanyTableFilter } from '../../../../shared/table/filters/company-table-filter';
-import { IssuerFilter } from '../../../../shared/table/filters/issuer-filter';
 import { TableDataSource } from '../../../../shared/table/table-data-source';
 import { ChargingStationButtonAction } from '../../../../types/ChargingStation';
 import { DataResult } from '../../../../types/DataResult';
+import { FilterDef } from '../../../../types/Filters';
 import { ButtonAction } from '../../../../types/GlobalType';
 import { Site, SiteButtonAction } from '../../../../types/Site';
-import { TableActionDef, TableColumnDef, TableDef, TableFilterDef } from '../../../../types/Table';
+import { TableActionDef, TableColumnDef, TableDef } from '../../../../types/Table';
 import { User } from '../../../../types/User';
 import { Utils } from '../../../../utils/Utils';
 import { SiteUsersDialogComponent } from '../site-users/site-users-dialog.component';
@@ -314,7 +315,7 @@ export class SitesListTableDataSource extends TableDataSource<Site> {
     ];
   }
 
-  public buildTableFiltersDef(): TableFilterDef[] {
+  public buildTableFiltersDef(): FilterDef[] {
     const issuerFilter = new IssuerFilter().getFilterDef();
     const filters = [
       issuerFilter,

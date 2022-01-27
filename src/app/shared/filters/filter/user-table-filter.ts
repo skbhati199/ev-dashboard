@@ -1,12 +1,13 @@
-import { FilterType, TableFilterDef } from '../../../types/Table';
-import { UsersDialogComponent } from '../../dialogs/users/users-dialog.component';
-import { TableFilter } from './table-filter';
+import { FilterDef, FilterType } from 'types/Filters';
 
-export class UserTableFilter extends TableFilter {
-  public constructor(dependentFilters?: TableFilterDef[]) {
+import { UsersDialogComponent } from '../../dialogs/users/users-dialog.component';
+import { BaseFilter } from './base-filter';
+
+export class UserTableFilter extends BaseFilter {
+  public constructor(dependentFilters?: FilterDef[]) {
     super();
     // Define filter
-    const filterDef: TableFilterDef = {
+    const filterDef: FilterDef = {
       id: 'user',
       httpId: 'UserID',
       type: FilterType.DIALOG_TABLE,

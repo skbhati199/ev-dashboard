@@ -1,12 +1,13 @@
-import { USER_STATUSES } from '../../../shared/model/users.model';
-import { TableFilter } from '../../../shared/table/filters/table-filter';
-import { FilterType, TableFilterDef } from '../../../types/Table';
+import { BaseFilter } from 'shared/filters/filter/base-filter';
+import { FilterDef, FilterType } from 'types/Filters';
 
-export class UserStatusFilter extends TableFilter {
+import { USER_STATUSES } from '../../../shared/model/users.model';
+
+export class UserStatusFilter extends BaseFilter {
   public constructor() {
     super();
     // Define filter
-    const filterDef: TableFilterDef = {
+    const filterDef: FilterDef = {
       id: 'status',
       httpId: 'Status',
       type: FilterType.DROPDOWN,

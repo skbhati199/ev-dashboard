@@ -5,6 +5,7 @@ import { TranslateService } from '@ngx-translate/core';
 import { StatusCodes } from 'http-status-codes';
 import * as moment from 'moment';
 import { DialogMode } from 'types/Authorization';
+import { FilterDef, FilterType } from 'types/Filters';
 import { HTTPError } from 'types/HTTPError';
 import { Tag } from 'types/Tag';
 import { User, UserToken } from 'types/User';
@@ -18,11 +19,11 @@ import { Car, CarCatalog, CarConverter, CarType } from '../types/Car';
 import { ChargePoint, ChargingStation, ChargingStationPowers, Connector, CurrentType, StaticLimitAmps, Voltage } from '../types/ChargingStation';
 import { KeyValue } from '../types/GlobalType';
 import { MobileType } from '../types/Mobile';
-import { ButtonType, FilterType, TableDataSourceMode, TableFilterDef } from '../types/Table';
+import { ButtonType, TableDataSourceMode } from '../types/Table';
 import { Constants } from './Constants';
 
 export class Utils {
-  public static buildDependentFilters(filterDef: TableFilterDef) {
+  public static buildDependentFilters(filterDef: FilterDef) {
     if (!Utils.isEmptyArray(filterDef.dependentFilters)) {
       filterDef.dialogComponentData = {
         staticFilter: {}

@@ -1,12 +1,13 @@
-import { LogActionsDialogComponent } from '../../../shared/dialogs/logs/log-actions-dialog.component';
-import { TableFilter } from '../../../shared/table/filters/table-filter';
-import { FilterType, TableFilterDef } from '../../../types/Table';
+import { BaseFilter } from 'shared/filters/filter/base-filter';
+import { FilterDef, FilterType } from 'types/Filters';
 
-export class LogActionTableFilter extends TableFilter {
+import { LogActionsDialogComponent } from '../../../shared/dialogs/logs/log-actions-dialog.component';
+
+export class LogActionTableFilter extends BaseFilter {
   public constructor(actions?: readonly string[]) {
     super();
     // Define filter
-    const filterDef: TableFilterDef = {
+    const filterDef: FilterDef = {
       id: 'action',
       httpId: 'Action',
       type: FilterType.DIALOG_TABLE,

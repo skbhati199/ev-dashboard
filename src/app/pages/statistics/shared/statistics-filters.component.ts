@@ -4,20 +4,20 @@ import { MatDatetimepickerInputEvent } from '@mat-datetimepicker/core';
 import { TranslateService } from '@ngx-translate/core';
 import * as moment from 'moment';
 import { DaterangepickerComponent, DaterangepickerDirective } from 'ngx-daterangepicker-material';
-import { ChargingStationTableFilter } from 'shared/table/filters/charging-station-table-filter';
-import { DateRangeTableFilter } from 'shared/table/filters/date-range-table-filter';
-import { IssuerFilter } from 'shared/table/filters/issuer-filter';
-import { SiteAreaTableFilter } from 'shared/table/filters/site-area-table-filter';
-import { SiteTableFilter } from 'shared/table/filters/site-table-filter';
-import { UserTableFilter } from 'shared/table/filters/user-table-filter';
 
 import { AuthorizationService } from '../../../services/authorization.service';
 import { CentralServerService } from '../../../services/central-server.service';
 import { ComponentService } from '../../../services/component.service';
 import { LocaleService } from '../../../services/locale.service';
+import { ChargingStationTableFilter } from '../../../shared/filters/filter/charging-station-table-filter';
+import { DateRangeTableFilter } from '../../../shared/filters/filter/date-range-table-filter';
+import { IssuerFilter } from '../../../shared/filters/filter/issuer-filter';
+import { SiteAreaTableFilter } from '../../../shared/filters/filter/site-area-table-filter';
+import { SiteTableFilter } from '../../../shared/filters/filter/site-table-filter';
+import { UserTableFilter } from '../../../shared/filters/filter/user-table-filter';
+import { FilterDef, FilterType } from '../../../types/Filters';
 import { FilterParams } from '../../../types/GlobalType';
 import { SettingLink } from '../../../types/Setting';
-import { FilterType, TableFilterDef } from '../../../types/Table';
 import { TenantComponents } from '../../../types/Tenant';
 import { Utils } from '../../../utils/Utils';
 
@@ -61,7 +61,7 @@ export class StatisticsFiltersComponent implements OnInit {
   ];
   public selectedCategory = 'C';
   public activeButtonOfScopeGroup!: StatisticsButtonGroup;
-  public tableFiltersDef?: TableFilterDef[] = [];
+  public tableFiltersDef?: FilterDef[] = [];
 
   private filterParams = {};
 
@@ -145,7 +145,7 @@ export class StatisticsFiltersComponent implements OnInit {
     this.update.emit(true);
   }
 
-  public dateRangeChange(filterDef: TableFilterDef, event): void {
+  public dateRangeChange(filterDef: FilterDef, event): void {
     if (filterDef.type === 'date-range' && event.hasOwnProperty('startDate') && event.hasOwnProperty('endDate')) {
       filterDef.currentValue = event ? event : null;
     } else {
@@ -183,7 +183,7 @@ export class StatisticsFiltersComponent implements OnInit {
 
 
 
-  public filterChanged(filter: TableFilterDef): void {
+  public filterChanged(filter: FilterDef): void {
     // Update Filter
     const foundFilter = this.tableFiltersDef.find((filterDef) => filterDef.id === filter.id);
     // Update value (if needed!)
@@ -195,7 +195,7 @@ export class StatisticsFiltersComponent implements OnInit {
     }
   }
 
-  public updateFilterLabel(filter: TableFilterDef) {
+  public updateFilterLabel(filter: FilterDef) {
     if (Array.isArray(filter.currentValue)) {
       if (filter.currentValue.length > 0) {
         filter.label = this.translateService.instant(filter.currentValue[0].value) +
@@ -218,7 +218,7 @@ export class StatisticsFiltersComponent implements OnInit {
     // Handle filters
     if (this.tableFiltersDef) {
       // Reset all filter fields
-      this.tableFiltersDef.forEach((filterDef: TableFilterDef) => {
+      this.tableFiltersDef.forEach((filterDef: FilterDef) => {
         switch (filterDef.type) {
           case FilterType.DROPDOWN:
           case FilterType.DIALOG_TABLE:
@@ -245,7 +245,7 @@ export class StatisticsFiltersComponent implements OnInit {
     }
   }
 
-  public resetDialogTableFilter(filterDef: TableFilterDef): void {
+  public resetDialogTableFilter(filterDef: FilterDef): void {
     let filterIsChanged = false;
     if (filterDef.type === FilterType.DATE) {
       filterIsChanged = true;
@@ -270,7 +270,7 @@ export class StatisticsFiltersComponent implements OnInit {
     }
   }
 
-  public showDialogTableFilter(filterDef: TableFilterDef): void {
+  public showDialogTableFilter(filterDef: FilterDef): void {
     // Disable outside click close
     const dialogConfig = new MatDialogConfig();
     dialogConfig.disableClose = true;
@@ -315,7 +315,7 @@ export class StatisticsFiltersComponent implements OnInit {
     const filterJson = {};
     // Parse filters
     if (this.tableFiltersDef) {
-      this.tableFiltersDef.forEach((filterDef: TableFilterDef) => {
+      this.tableFiltersDef.forEach((filterDef: FilterDef) => {
         // Check the 'All' value
         if (filterDef.currentValue && filterDef.currentValue !== FilterType.ALL_KEY) {
           // Date
@@ -400,7 +400,7 @@ export class StatisticsFiltersComponent implements OnInit {
     }
   }
 
-  public dateFilterChanged(filterDef: TableFilterDef, event: MatDatetimepickerInputEvent<any>) {
+  public dateFilterChanged(filterDef: FilterDef, event: MatDatetimepickerInputEvent<any>) {
     // Date?
     if (filterDef.type === 'date') {
       filterDef.currentValue = event.value ? event.value.toDate() : null;
@@ -445,7 +445,7 @@ export class StatisticsFiltersComponent implements OnInit {
 
   // set Date Filter to corresponding year
   private setDateRangeFilterYear(init = false): void {
-    this.tableFiltersDef.forEach((filterDef: TableFilterDef) => {
+    this.tableFiltersDef.forEach((filterDef: FilterDef) => {
       if (filterDef.type === FilterType.DATE_RANGE) {
         if (init) {
           this.initDateRange = true;
@@ -467,7 +467,7 @@ export class StatisticsFiltersComponent implements OnInit {
 
   // set Date Filter to corresponding year
   private setDateFilterYear(): void {
-    this.tableFiltersDef.forEach((filterDef: TableFilterDef) => {
+    this.tableFiltersDef.forEach((filterDef: FilterDef) => {
       if (filterDef.type === FilterType.DATE) {
         if (this.selectedYear === 0) {
           if (filterDef.id === 'dateFrom') {
@@ -486,7 +486,7 @@ export class StatisticsFiltersComponent implements OnInit {
     });
   }
 
-  private testIfFilterIsInitial(filterDef: TableFilterDef): boolean {
+  private testIfFilterIsInitial(filterDef: FilterDef): boolean {
     let filterIsInitial = true;
     if (filterDef.multiple) {
       if (!Utils.isEmptyArray(filterDef.currentValue) || (filterDef.label && !Utils.isEmptyString(filterDef.label))) {

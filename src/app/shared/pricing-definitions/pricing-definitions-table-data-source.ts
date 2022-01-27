@@ -3,6 +3,7 @@ import { MatDialog } from '@angular/material/dialog';
 import { Router } from '@angular/router';
 import { TranslateService } from '@ngx-translate/core';
 import { Observable } from 'rxjs';
+import { FilterDef } from 'types/Filters';
 
 import { CentralServerService } from '../../services/central-server.service';
 import { DialogService } from '../../services/dialog.service';
@@ -11,7 +12,7 @@ import { SpinnerService } from '../../services/spinner.service';
 import { DialogTableDataSource } from '../../shared/dialogs/dialog-table-data-source';
 import { DataResult } from '../../types/DataResult';
 import PricingDefinition, { PricingButtonAction, PricingEntity } from '../../types/Pricing';
-import { TableActionDef, TableColumnDef, TableDef, TableFilterDef } from '../../types/Table';
+import { TableActionDef, TableColumnDef, TableDef } from '../../types/Table';
 import { Utils } from '../../utils/Utils';
 import { AppDatePipe } from '../formatters/app-date.pipe';
 import { AppPricingDimensionsPrice } from '../formatters/app-pricing-dimensions.price.pipe';
@@ -202,7 +203,7 @@ export class PricingDefinitionsTableDataSource extends DialogTableDataSource<Pri
     ];
   }
 
-  public buildTableFiltersDef(): TableFilterDef[] {
+  public buildTableFiltersDef(): FilterDef[] {
     return [];
   }
 }

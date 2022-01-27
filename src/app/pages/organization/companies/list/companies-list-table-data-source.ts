@@ -8,6 +8,7 @@ import { CentralServerService } from '../../../../services/central-server.servic
 import { DialogService } from '../../../../services/dialog.service';
 import { MessageService } from '../../../../services/message.service';
 import { SpinnerService } from '../../../../services/spinner.service';
+import { IssuerFilter } from '../../../../shared/filters/filter/issuer-filter';
 import { AppDatePipe } from '../../../../shared/formatters/app-date.pipe';
 import { TableCreateCompanyAction, TableCreateCompanyActionDef } from '../../../../shared/table/actions/companies/table-create-company-action';
 import { TableDeleteCompanyAction, TableDeleteCompanyActionDef } from '../../../../shared/table/actions/companies/table-delete-company-action';
@@ -17,12 +18,12 @@ import { TableAutoRefreshAction } from '../../../../shared/table/actions/table-a
 import { TableMoreAction } from '../../../../shared/table/actions/table-more-action';
 import { TableOpenInMapsAction } from '../../../../shared/table/actions/table-open-in-maps-action';
 import { TableRefreshAction } from '../../../../shared/table/actions/table-refresh-action';
-import { IssuerFilter } from '../../../../shared/table/filters/issuer-filter';
 import { TableDataSource } from '../../../../shared/table/table-data-source';
 import { Company, CompanyButtonAction } from '../../../../types/Company';
 import { DataResult } from '../../../../types/DataResult';
+import { FilterDef } from '../../../../types/Filters';
 import { ButtonAction } from '../../../../types/GlobalType';
-import { TableActionDef, TableColumnDef, TableDef, TableFilterDef } from '../../../../types/Table';
+import { TableActionDef, TableColumnDef, TableDef } from '../../../../types/Table';
 import { User } from '../../../../types/User';
 import { Utils } from '../../../../utils/Utils';
 import { CompanyLogoFormatterCellComponent } from '../cell-components/company-logo-formatter-cell.component';
@@ -227,7 +228,7 @@ export class CompaniesListTableDataSource extends TableDataSource<Company> {
     ];
   }
 
-  public buildTableFiltersDef(): TableFilterDef[] {
+  public buildTableFiltersDef(): FilterDef[] {
     return [
       new IssuerFilter().getFilterDef(),
     ];

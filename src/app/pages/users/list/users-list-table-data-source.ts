@@ -4,8 +4,12 @@ import { Router } from '@angular/router';
 import { TranslateService } from '@ngx-translate/core';
 import { Observable } from 'rxjs';
 import { ImportDialogComponent } from 'shared/dialogs/import/import-dialog.component';
+import { IssuerFilter, organizations } from 'shared/filters/filter/issuer-filter';
+import { SiteTableFilter } from 'shared/filters/filter/site-table-filter';
+import { TagTableFilter } from 'shared/filters/filter/tag-table-filter';
 import { TableImportUsersAction, TableImportUsersActionDef } from 'shared/table/actions/users/table-import-users-action';
 import { AuthorizationDefinitionFieldMetadata } from 'types/Authorization';
+import { FilterDef } from 'types/Filters';
 import { TagButtonAction } from 'types/Tag';
 
 import { AuthorizationService } from '../../../services/authorization.service';
@@ -29,13 +33,10 @@ import { TableEditUserAction, TableEditUserActionDef } from '../../../shared/tab
 import { TableExportUsersAction, TableExportUsersActionDef } from '../../../shared/table/actions/users/table-export-users-action';
 import { TableForceSyncBillingUserAction } from '../../../shared/table/actions/users/table-force-sync-billing-user-action';
 import { TableSyncBillingUsersAction } from '../../../shared/table/actions/users/table-sync-billing-users-action';
-import { IssuerFilter, organizations } from '../../../shared/table/filters/issuer-filter';
-import { SiteTableFilter } from '../../../shared/table/filters/site-table-filter';
-import { TagTableFilter } from '../../../shared/table/filters/tag-table-filter';
 import { TableDataSource } from '../../../shared/table/table-data-source';
 import { BillingButtonAction } from '../../../types/Billing';
 import { DataResult } from '../../../types/DataResult';
-import { TableActionDef, TableColumnDef, TableDef, TableFilterDef } from '../../../types/Table';
+import { TableActionDef, TableColumnDef, TableDef } from '../../../types/Table';
 import { TenantComponents } from '../../../types/Tenant';
 import { TransactionButtonAction } from '../../../types/Transaction';
 import { User, UserButtonAction } from '../../../types/User';
@@ -391,7 +392,7 @@ export class UsersListTableDataSource extends TableDataSource<User> {
     ];
   }
 
-  public buildTableFiltersDef(): TableFilterDef[] {
+  public buildTableFiltersDef(): FilterDef[] {
     const issuerFilter = new IssuerFilter().getFilterDef();
     const siteFilter = new SiteTableFilter([issuerFilter]).getFilterDef();
     const filters = [

@@ -9,17 +9,18 @@ import { ConfigService } from '../../../services/config.service';
 import { DialogService } from '../../../services/dialog.service';
 import { MessageService } from '../../../services/message.service';
 import { SpinnerService } from '../../../services/spinner.service';
+import { CarMakerTableFilter } from '../../../shared/filters/filter/car-maker-table-filter';
 import { AppDecimalPipe } from '../../../shared/formatters/app-decimal.pipe';
 import { AppUnitPipe } from '../../../shared/formatters/app-unit.pipe';
 import { TableSyncCarCatalogsAction, TableSyncCarCatalogsActionDef } from '../../../shared/table/actions/cars/table-sync-car-catalogs-action';
 import { TableViewCarCatalogAction, TableViewCarCatalogActionDef } from '../../../shared/table/actions/cars/table-view-car-catalog-action';
 import { TableAutoRefreshAction } from '../../../shared/table/actions/table-auto-refresh-action';
 import { TableRefreshAction } from '../../../shared/table/actions/table-refresh-action';
-import { CarMakerTableFilter } from '../../../shared/table/filters/car-maker-table-filter';
 import { TableDataSource } from '../../../shared/table/table-data-source';
 import { CarButtonAction, CarCatalog } from '../../../types/Car';
 import { DataResult } from '../../../types/DataResult';
-import { TableActionDef, TableColumnDef, TableDef, TableFilterDef } from '../../../types/Table';
+import { FilterDef } from '../../../types/Filters';
+import { TableActionDef, TableColumnDef, TableDef } from '../../../types/Table';
 import { Utils } from '../../../utils/Utils';
 import { CarCatalogDialogComponent } from '../car-catalog/car-catalog-dialog.component';
 import { CarCatalogImageFormatterCellComponent } from '../cell-components/car-catalog-image-formatter-cell.component';
@@ -262,7 +263,7 @@ export class CarCatalogsListTableDataSource extends TableDataSource<CarCatalog> 
     ];
   }
 
-  public buildTableFiltersDef(): TableFilterDef[] {
+  public buildTableFiltersDef(): FilterDef[] {
     return [
       new CarMakerTableFilter().getFilterDef(),
     ];

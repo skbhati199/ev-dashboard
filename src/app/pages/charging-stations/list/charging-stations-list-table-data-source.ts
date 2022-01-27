@@ -11,6 +11,10 @@ import { ComponentService } from '../../../services/component.service';
 import { DialogService } from '../../../services/dialog.service';
 import { MessageService } from '../../../services/message.service';
 import { SpinnerService } from '../../../services/spinner.service';
+import { CompanyTableFilter } from '../../../shared/filters/filter/company-table-filter';
+import { IssuerFilter } from '../../../shared/filters/filter/issuer-filter';
+import { SiteAreaTableFilter } from '../../../shared/filters/filter/site-area-table-filter';
+import { SiteTableFilter } from '../../../shared/filters/filter/site-table-filter';
 import { TableChargingStationGenerateQrCodeConnectorAction, TableChargingStationGenerateQrCodeConnectorActionDef } from '../../../shared/table/actions/charging-stations/table-charging-station-generate-qr-code-connector-action';
 import { TableChargingStationsClearCacheAction, TableChargingStationsClearCacheActionDef } from '../../../shared/table/actions/charging-stations/table-charging-stations-clear-cache-action';
 import { TableChargingStationsForceAvailableStatusAction, TableChargingStationsForceAvailableStatusActionDef } from '../../../shared/table/actions/charging-stations/table-charging-stations-force-available-status-action';
@@ -26,16 +30,13 @@ import { TableMoreAction } from '../../../shared/table/actions/table-more-action
 import { TableOpenInMapsAction } from '../../../shared/table/actions/table-open-in-maps-action';
 import { TableRefreshAction } from '../../../shared/table/actions/table-refresh-action';
 import { TableViewPricingDefinitionsAction, TableViewPricingDefinitionsActionDef } from '../../../shared/table/actions/table-view-pricing-definitions-action';
-import { CompanyTableFilter } from '../../../shared/table/filters/company-table-filter';
-import { IssuerFilter } from '../../../shared/table/filters/issuer-filter';
-import { SiteAreaTableFilter } from '../../../shared/table/filters/site-area-table-filter';
-import { SiteTableFilter } from '../../../shared/table/filters/site-table-filter';
 import { TableDataSource } from '../../../shared/table/table-data-source';
 import { ChargePointStatus, ChargingStation, ChargingStationButtonAction, Connector, FirmwareStatus } from '../../../types/ChargingStation';
 import { DataResult } from '../../../types/DataResult';
+import { FilterDef } from '../../../types/Filters';
 import { ButtonAction } from '../../../types/GlobalType';
 import { PricingButtonAction, PricingEntity } from '../../../types/Pricing';
-import { DropdownItem, TableActionDef, TableColumnDef, TableDef, TableFilterDef } from '../../../types/Table';
+import { DropdownItem, TableActionDef, TableColumnDef, TableDef } from '../../../types/Table';
 import { TenantComponents } from '../../../types/Tenant';
 import { Utils } from '../../../utils/Utils';
 import { ChargingStationsConnectorsCellComponent } from '../cell-components/charging-stations-connectors-cell.component';
@@ -356,7 +357,7 @@ export class ChargingStationsListTableDataSource extends TableDataSource<Chargin
     }
   }
 
-  public buildTableFiltersDef(): TableFilterDef[] {
+  public buildTableFiltersDef(): FilterDef[] {
     if (this.isOrganizationComponentActive) {
       const issuerFilter = new IssuerFilter().getFilterDef();
       const companyFilter = new CompanyTableFilter([issuerFilter]).getFilterDef();

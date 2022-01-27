@@ -5,10 +5,6 @@ import * as moment from 'moment';
 import { Observable } from 'rxjs';
 import { map } from 'rxjs/operators';
 import { ComponentService } from 'services/component.service';
-import { ChargingStationTableFilter } from 'shared/table/filters/charging-station-table-filter';
-import { DateRangeTableFilter } from 'shared/table/filters/date-range-table-filter';
-import { IssuerFilter } from 'shared/table/filters/issuer-filter';
-import { SiteTableFilter } from 'shared/table/filters/site-table-filter';
 import { TenantComponents } from 'types/Tenant';
 
 import { AuthorizationService } from '../../../services/authorization.service';
@@ -17,16 +13,21 @@ import { DialogService } from '../../../services/dialog.service';
 import { MessageService } from '../../../services/message.service';
 import { SpinnerService } from '../../../services/spinner.service';
 import { WindowService } from '../../../services/window.service';
+import { ChargingStationTableFilter } from '../../../shared/filters/filter/charging-station-table-filter';
+import { DateRangeTableFilter } from '../../../shared/filters/filter/date-range-table-filter';
+import { IssuerFilter } from '../../../shared/filters/filter/issuer-filter';
+import { SiteTableFilter } from '../../../shared/filters/filter/site-table-filter';
+import { UserTableFilter } from '../../../shared/filters/filter/user-table-filter';
 import { AppDatePipe } from '../../../shared/formatters/app-date.pipe';
 import { logLevels } from '../../../shared/model/logs.model';
 import { TableExportLogsAction, TableExportLogsActionDef } from '../../../shared/table/actions/logs/table-export-logs-action';
 import { TableAutoRefreshAction } from '../../../shared/table/actions/table-auto-refresh-action';
 import { TableRefreshAction } from '../../../shared/table/actions/table-refresh-action';
-import { UserTableFilter } from '../../../shared/table/filters/user-table-filter';
 import { TableDataSource } from '../../../shared/table/table-data-source';
 import { DataResult } from '../../../types/DataResult';
+import { FilterDef } from '../../../types/Filters';
 import { Log, LogButtonAction } from '../../../types/Log';
-import { TableActionDef, TableColumnDef, TableDef, TableFilterDef } from '../../../types/Table';
+import { TableActionDef, TableColumnDef, TableDef } from '../../../types/Table';
 import { Formatters } from '../../../utils/Formatters';
 import { Utils } from '../../../utils/Utils';
 import { LogActionTableFilter } from '../filters/log-action-filter';
@@ -247,7 +248,7 @@ export class LogsListTableDataSource extends TableDataSource<Log> {
     ];
   }
 
-  public buildTableFiltersDef(): TableFilterDef[] {
+  public buildTableFiltersDef(): FilterDef[] {
     const issuerFilter = new IssuerFilter().getFilterDef();
     if (this.authorizationService.isSuperAdmin()) {
       return [

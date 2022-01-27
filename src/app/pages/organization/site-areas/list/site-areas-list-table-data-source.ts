@@ -12,6 +12,8 @@ import { ComponentService } from '../../../../services/component.service';
 import { DialogService } from '../../../../services/dialog.service';
 import { MessageService } from '../../../../services/message.service';
 import { SpinnerService } from '../../../../services/spinner.service';
+import { IssuerFilter } from '../../../../shared/filters/filter/issuer-filter';
+import { SiteTableFilter } from '../../../../shared/filters/filter/site-table-filter';
 import { AppDatePipe } from '../../../../shared/formatters/app-date.pipe';
 import { AppUnitPipe } from '../../../../shared/formatters/app-unit.pipe';
 import { TableExportOCPPParamsAction, TableExportOCPPParamsActionDef } from '../../../../shared/table/actions/charging-stations/table-export-ocpp-params-action';
@@ -27,14 +29,13 @@ import { TableAutoRefreshAction } from '../../../../shared/table/actions/table-a
 import { TableMoreAction } from '../../../../shared/table/actions/table-more-action';
 import { TableOpenInMapsAction } from '../../../../shared/table/actions/table-open-in-maps-action';
 import { TableRefreshAction } from '../../../../shared/table/actions/table-refresh-action';
-import { IssuerFilter } from '../../../../shared/table/filters/issuer-filter';
-import { SiteTableFilter } from '../../../../shared/table/filters/site-table-filter';
 import { TableDataSource } from '../../../../shared/table/table-data-source';
 import { ChargingStationButtonAction } from '../../../../types/ChargingStation';
 import { DataResult } from '../../../../types/DataResult';
+import { FilterDef } from '../../../../types/Filters';
 import { ButtonAction } from '../../../../types/GlobalType';
 import { SiteArea, SiteAreaButtonAction } from '../../../../types/SiteArea';
-import { TableActionDef, TableColumnDef, TableDef, TableFilterDef } from '../../../../types/Table';
+import { TableActionDef, TableColumnDef, TableDef } from '../../../../types/Table';
 import { TenantComponents } from '../../../../types/Tenant';
 import { User } from '../../../../types/User';
 import { Utils } from '../../../../utils/Utils';
@@ -361,7 +362,7 @@ export class SiteAreasListTableDataSource extends TableDataSource<SiteArea> {
     ];
   }
 
-  public buildTableFiltersDef(): TableFilterDef[] {
+  public buildTableFiltersDef(): FilterDef[] {
     const issuerFilter = new IssuerFilter().getFilterDef();
     return [
       issuerFilter,

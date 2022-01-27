@@ -1,12 +1,13 @@
-import { TagsDialogComponent } from '../../../shared/dialogs/tags/tags-dialog.component';
-import { FilterType, TableFilterDef } from '../../../types/Table';
-import { TableFilter } from './table-filter';
+import { FilterDef, FilterType } from 'types/Filters';
 
-export class TagTableFilter extends TableFilter {
-  public constructor(dependentFilters?: TableFilterDef[]) {
+import { TagsDialogComponent } from '../../../shared/dialogs/tags/tags-dialog.component';
+import { BaseFilter } from './base-filter';
+
+export class TagTableFilter extends BaseFilter {
+  public constructor(dependentFilters?: FilterDef[]) {
     super();
     // Define filter
-    const filterDef: TableFilterDef = {
+    const filterDef: FilterDef = {
       id: 'tag',
       httpId: 'VisualTagID',
       type: FilterType.DIALOG_TABLE,

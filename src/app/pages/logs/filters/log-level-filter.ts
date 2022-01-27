@@ -1,12 +1,13 @@
-import { logLevels } from '../../../shared/model/logs.model';
-import { TableFilter } from '../../../shared/table/filters/table-filter';
-import { FilterType, TableFilterDef } from '../../../types/Table';
+import { BaseFilter } from 'shared/filters/filter/base-filter';
+import { FilterDef, FilterType } from 'types/Filters';
 
-export class LogLevelTableFilter extends TableFilter {
+import { logLevels } from '../../../shared/model/logs.model';
+
+export class LogLevelTableFilter extends BaseFilter {
   public constructor() {
     super();
     // Define filter
-    const filterDef: TableFilterDef = {
+    const filterDef: FilterDef = {
       id: 'level',
       httpId: 'Level',
       type: FilterType.DROPDOWN,

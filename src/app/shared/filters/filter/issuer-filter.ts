@@ -1,12 +1,13 @@
-import { TableFilter } from '../../../shared/table/filters/table-filter';
-import { KeyValue } from '../../../types/GlobalType';
-import { FilterType, TableFilterDef } from '../../../types/Table';
+import { FilterDef, FilterType } from 'types/Filters';
 
-export class IssuerFilter extends TableFilter {
+import { KeyValue } from '../../../types/GlobalType';
+import { BaseFilter } from './base-filter';
+
+export class IssuerFilter extends BaseFilter {
   public constructor(defaultValue = true) {
     super();
     // Define filter
-    const filterDef: TableFilterDef = {
+    const filterDef: FilterDef = {
       id: 'issuer',
       httpId: 'Issuer',
       type: FilterType.DROPDOWN,

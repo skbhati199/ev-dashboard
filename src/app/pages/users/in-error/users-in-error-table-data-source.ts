@@ -3,6 +3,8 @@ import { MatDialog } from '@angular/material/dialog';
 import { Router } from '@angular/router';
 import { TranslateService } from '@ngx-translate/core';
 import { Observable } from 'rxjs';
+import { ErrorTypeTableFilter } from 'shared/filters/filter/error-type-table-filter';
+import { FilterDef } from 'types/Filters';
 
 import { CentralServerService } from '../../../services/central-server.service';
 import { ComponentService } from '../../../services/component.service';
@@ -18,11 +20,10 @@ import { TableDeleteUserAction, TableDeleteUserActionDef } from '../../../shared
 import { TableEditUserAction, TableEditUserActionDef } from '../../../shared/table/actions/users/table-edit-user-action';
 import { TableForceSyncBillingUserAction } from '../../../shared/table/actions/users/table-force-sync-billing-user-action';
 import { TableSyncBillingUserAction } from '../../../shared/table/actions/users/table-sync-billing-user-action';
-import { ErrorTypeTableFilter } from '../../../shared/table/filters/error-type-table-filter';
 import { TableDataSource } from '../../../shared/table/table-data-source';
 import { DataResult } from '../../../types/DataResult';
 import { ErrorMessage, UserInError, UserInErrorType } from '../../../types/InError';
-import { TableActionDef, TableColumnDef, TableDef, TableFilterDef } from '../../../types/Table';
+import { TableActionDef, TableColumnDef, TableDef } from '../../../types/Table';
 import { TenantComponents } from '../../../types/Tenant';
 import { User, UserButtonAction } from '../../../types/User';
 import { Utils } from '../../../utils/Utils';
@@ -211,7 +212,7 @@ export class UsersInErrorTableDataSource extends TableDataSource<User> {
     ];
   }
 
-  public buildTableFiltersDef(): TableFilterDef[] {
+  public buildTableFiltersDef(): FilterDef[] {
     // Create error type
     const errorTypes = [];
     errorTypes.push({
@@ -239,7 +240,7 @@ export class UsersInErrorTableDataSource extends TableDataSource<User> {
     // Sort
     errorTypes.sort(Utils.sortArrayOfKeyValue);
     // Build filters
-    const filters: TableFilterDef[] = [
+    const filters: FilterDef[] = [
       new UserRoleFilter(this.centralServerService).getFilterDef(),
     ];
     // Show Error types filter only if Organization component is active

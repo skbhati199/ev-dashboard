@@ -1,11 +1,12 @@
-import { TRANSACTION_INACTIVITY_STATUS } from '../../../shared/model/transaction-inactivity-status.model';
-import { TableFilter } from '../../../shared/table/filters/table-filter';
-import { FilterType, TableFilterDef } from '../../../types/Table';
+import { BaseFilter } from 'shared/filters/filter/base-filter';
+import { FilterDef, FilterType } from 'types/Filters';
 
-export class TransactionsInactivityStatusFilter extends TableFilter {
+import { TRANSACTION_INACTIVITY_STATUS } from '../../../shared/model/transaction-inactivity-status.model';
+
+export class TransactionsInactivityStatusFilter extends BaseFilter {
   public constructor() {
     super();
-    const filterDef: TableFilterDef = {
+    const filterDef: FilterDef = {
       id: 'inactivityStatus',
       httpId: 'InactivityStatus',
       type: FilterType.DROPDOWN,

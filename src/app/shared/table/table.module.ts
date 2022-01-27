@@ -4,6 +4,7 @@ import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { RouterModule } from '@angular/router';
 import { TranslateModule } from '@ngx-translate/core';
 import { NgxDaterangepickerMd } from 'ngx-daterangepicker-material';
+import { FiltersModule } from 'shared/filters/filters.module';
 
 import { MaterialModule } from '../../app.module';
 import { CommonDirectivesModule } from '../directives/directives.module';
@@ -21,6 +22,7 @@ import { TableComponent } from './table.component';
     CellContentTemplateModule,
     CommonDirectivesModule,
     FormsModule,
+    FiltersModule,
     ReactiveFormsModule,
     NgxDaterangepickerMd,
   ],

@@ -3,11 +3,12 @@ import { MatSort } from '@angular/material/sort';
 import { TranslateService } from '@ngx-translate/core';
 import { Observable, of } from 'rxjs';
 import { first } from 'rxjs/operators';
+import { FilterDef, FilterType } from 'types/Filters';
 
 import { SpinnerService } from '../../services/spinner.service';
 import { DataResult, Ordering, Paging } from '../../types/DataResult';
 import { FilterParams } from '../../types/GlobalType';
-import { DropdownItem, FilterType, TableActionDef, TableColumnDef, TableData, TableDataSourceMode, TableDef, TableFilterDef } from '../../types/Table';
+import { DropdownItem, TableActionDef, TableColumnDef, TableData, TableDataSourceMode, TableDef } from '../../types/Table';
 import { Constants } from '../../utils/Constants';
 import { Utils } from '../../utils/Utils';
 import { TableResetFiltersAction } from './actions/table-reset-filters-action';
@@ -15,7 +16,7 @@ import { TableResetFiltersAction } from './actions/table-reset-filters-action';
 export abstract class TableDataSource<T extends TableData> {
   public tableDef!: TableDef;
   public tableColumnsDef!: TableColumnDef[];
-  public tableFiltersDef!: TableFilterDef[];
+  public tableFiltersDef!: FilterDef[];
   public tableActionsDef!: TableActionDef[];
   public tableActionsRightDef!: TableActionDef[];
   public tableRowActionsDef!: TableActionDef[];
@@ -246,7 +247,7 @@ export abstract class TableDataSource<T extends TableData> {
     return [];
   }
 
-  public buildTableFiltersDef(): TableFilterDef[] {
+  public buildTableFiltersDef(): FilterDef[] {
     return [];
   }
 
@@ -254,7 +255,7 @@ export abstract class TableDataSource<T extends TableData> {
     this.tableDef = tableDef;
   }
 
-  public filterChanged(filter: TableFilterDef) {
+  public filterChanged(filter: FilterDef) {
     // Reset to default paging
     this.setPaging({
       skip: 0,
@@ -274,7 +275,7 @@ export abstract class TableDataSource<T extends TableData> {
     this.filterSet = true;
   }
 
-  public updateFilterLabel(filter: TableFilterDef) {
+  public updateFilterLabel(filter: FilterDef) {
     if (filter.multiple) {
       if (Array.isArray(filter.currentValue)) {
         if (filter.currentValue.length > 0) {
@@ -295,7 +296,7 @@ export abstract class TableDataSource<T extends TableData> {
   public resetFilters() {
     if (this.tableFiltersDef) {
       // Reset all filter fields
-      this.tableFiltersDef.forEach((filterDef: TableFilterDef) => {
+      this.tableFiltersDef.forEach((filterDef: FilterDef) => {
         switch (filterDef.type) {
           case FilterType.DROPDOWN:
           case FilterType.DATE_RANGE:
@@ -593,7 +594,7 @@ export abstract class TableDataSource<T extends TableData> {
     return this.tableActionsRightDef;
   }
 
-  private initTableFiltersDef(force: boolean): TableFilterDef[] {
+  private initTableFiltersDef(force: boolean): FilterDef[] {
     if (!this.tableFiltersDef || force) {
       this.tableFiltersDef = this.buildTableFiltersDef();
       for (const tableFilterDef of this.tableFiltersDef) {

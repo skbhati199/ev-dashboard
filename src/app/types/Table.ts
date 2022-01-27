@@ -1,6 +1,5 @@
 import { ValidatorFn } from '@angular/forms';
 import { SortDirection } from '@angular/material/sort';
-import * as moment from 'moment';
 
 import { AssetButtonAction } from './Asset';
 import { AuthorizationActions } from './Authorization';
@@ -8,7 +7,7 @@ import { BillingButtonAction } from './Billing';
 import { CarButtonAction } from './Car';
 import { ChargingStationButtonAction } from './ChargingStation';
 import { CompanyButtonAction } from './Company';
-import { ButtonAction, KeyValue } from './GlobalType';
+import { ButtonAction } from './GlobalType';
 import { LogButtonAction } from './Log';
 import { OcpiButtonAction } from './ocpi/OCPIEndpoint';
 import { OicpButtonAction } from './oicp/OICPEndpoint';
@@ -35,48 +34,6 @@ export enum TableDataSourceMode {
   READ_ONLY = 'RO',
 }
 
-export interface TableFilterDef {
-  id: string;
-  httpId: string;
-  type: FilterType;
-  name: string;
-  label?: string;
-  currentValue?: any;
-  defaultValue?: any;
-  class?: string;
-  items?: KeyValue[];
-  dialogComponent?: any;
-  dialogComponentData?: any;
-  reset?: () => void;
-  multiple?: boolean;
-  exhaustive?: boolean;
-  cleared?: boolean;
-  dateRangeTableFilterDef?: DateRangeTableFilterDef;
-  dependentFilters?: TableFilterDef[];
-  visible?: boolean;
-}
-
-export interface DateRangeTableFilterDef {
-  singleDatePicker?: boolean;
-  minDate?: Date;
-  maxDate?: Date;
-  timePicker?: boolean;
-  timePicker24Hour?: boolean;
-  timePickerSeconds?: boolean;
-  startDate?: moment.Moment;
-  endDate?: moment.Moment;
-  locale?: Locale;
-  startDateTimeHttpId?: string;
-  endDateTimeHttpId?: string;
-}
-
-export interface Locale {
-  daysOfWeek?: string[];
-  monthNames?: string[];
-  firstDay?: number;
-  displayFormat?: string;
-  applyLabel?: string;
-}
 export interface DropdownItem {
   id: string;
   name: string;
@@ -90,14 +47,6 @@ export interface DropdownItem {
 export declare type ActionType = 'button' | 'dropdown-button' | 'slide' | '';
 // export declare type DialogType = 'YES_NO' | 'OK_CANCEL' | 'OK' | 'YES_NO_CANCEL' | 'DIRTY_CHANGE' | 'INVALID_CHANGE';
 // export declare type ButtonType = 'OK' | 'CANCEL' | 'YES' | 'NO' | 'SAVE_AND_CLOSE' | 'DO_NOT_SAVE_AND_CLOSE';
-
-export enum FilterType {
-  ALL_KEY = 'all',
-  DROPDOWN = 'dropdown',
-  DIALOG_TABLE = 'dialog-table',
-  DATE = 'date',
-  DATE_RANGE = 'date-range',
-}
 
 export enum ButtonType {
   OK = 'OK',

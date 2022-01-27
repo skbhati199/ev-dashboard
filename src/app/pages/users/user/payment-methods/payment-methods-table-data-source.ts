@@ -3,6 +3,7 @@ import { MatDialog } from '@angular/material/dialog';
 import { ActivatedRoute, Router } from '@angular/router';
 import { TranslateService } from '@ngx-translate/core';
 import { Observable } from 'rxjs';
+import { FilterDef } from 'types/Filters';
 import { HTTPError } from 'types/HTTPError';
 
 import { AuthorizationService } from '../../../../services/authorization.service';
@@ -20,7 +21,7 @@ import { TableDataSource } from '../../../../shared/table/table-data-source';
 import { BillingButtonAction, BillingPaymentMethod } from '../../../../types/Billing';
 import { DataResult } from '../../../../types/DataResult';
 import { BillingSettings } from '../../../../types/Setting';
-import { TableActionDef, TableColumnDef, TableDef, TableFilterDef } from '../../../../types/Table';
+import { TableActionDef, TableColumnDef, TableDef } from '../../../../types/Table';
 import { Utils } from '../../../../utils/Utils';
 import { PaymentMethodStatusComponent } from './payment-method/payment-method-status.component';
 import { PaymentMethodDialogComponent } from './payment-method/payment-method.dialog.component';
@@ -207,7 +208,7 @@ export class PaymentMethodsTableDataSource extends TableDataSource<BillingPaymen
     ];
   }
 
-  public buildTableFiltersDef(): TableFilterDef[] {
+  public buildTableFiltersDef(): FilterDef[] {
     return [];
   }
 }

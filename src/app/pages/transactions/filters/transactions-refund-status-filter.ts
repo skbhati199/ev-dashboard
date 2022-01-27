@@ -1,11 +1,12 @@
-import { TRANSACTION_REFUND_STATUS } from '../../../shared/model/transaction-refund-status.model';
-import { TableFilter } from '../../../shared/table/filters/table-filter';
-import { FilterType, TableFilterDef } from '../../../types/Table';
+import { BaseFilter } from 'shared/filters/filter/base-filter';
+import { FilterDef, FilterType } from 'types/Filters';
 
-export class TransactionsRefundStatusFilter extends TableFilter {
+import { TRANSACTION_REFUND_STATUS } from '../../../shared/model/transaction-refund-status.model';
+
+export class TransactionsRefundStatusFilter extends BaseFilter {
   public constructor() {
     super();
-    const filterDef: TableFilterDef = {
+    const filterDef: FilterDef = {
       id: 'transactionStatus',
       httpId: 'RefundStatus',
       type: FilterType.DROPDOWN,

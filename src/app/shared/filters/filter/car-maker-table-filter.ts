@@ -1,12 +1,13 @@
-import { CarMakersDialogComponent } from '../../../shared/dialogs/car-makers/car-makers-dialog.component';
-import { FilterType, TableFilterDef } from '../../../types/Table';
-import { TableFilter } from './table-filter';
+import { FilterDef, FilterType } from 'types/Filters';
 
-export class CarMakerTableFilter extends TableFilter {
+import { CarMakersDialogComponent } from '../../../shared/dialogs/car-makers/car-makers-dialog.component';
+import { BaseFilter } from './base-filter';
+
+export class CarMakerTableFilter extends BaseFilter {
   public constructor(carMakers?: readonly string[]) {
     super();
     // Define filter
-    const filterDef: TableFilterDef = {
+    const filterDef: FilterDef = {
       id: 'carMakers',
       httpId: 'CarMaker',
       type: FilterType.DIALOG_TABLE,

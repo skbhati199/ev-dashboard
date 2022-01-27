@@ -6,6 +6,8 @@ import { Observable } from 'rxjs';
 import { SpinnerService } from 'services/spinner.service';
 import { WindowService } from 'services/window.service';
 import { ImportDialogComponent } from 'shared/dialogs/import/import-dialog.component';
+import { StatusFilter } from 'shared/filters/filter/status-filter';
+import { UserTableFilter } from 'shared/filters/filter/user-table-filter';
 import { AppDatePipe } from 'shared/formatters/app-date.pipe';
 import { TableMoreAction } from 'shared/table/actions/table-more-action';
 import { TableOpenURLActionDef } from 'shared/table/actions/table-open-url-action';
@@ -17,13 +19,11 @@ import { TableImportTagsAction, TableImportTagsActionDef } from 'shared/table/ac
 import { TableUnassignTagAction, TableUnassignTagActionDef } from 'shared/table/actions/tags/table-unassign-tag-action';
 import { TableUnassignTagsAction, TableUnassignTagsActionDef } from 'shared/table/actions/tags/table-unassign-tags-action';
 import { TableNavigateToTransactionsAction } from 'shared/table/actions/transactions/table-navigate-to-transactions-action';
-import { organizations } from 'shared/table/filters/issuer-filter';
-import { StatusFilter } from 'shared/table/filters/status-filter';
-import { UserTableFilter } from 'shared/table/filters/user-table-filter';
 import { AuthorizationDefinitionFieldMetadata } from 'types/Authorization';
 import { DataResult } from 'types/DataResult';
+import { FilterDef } from 'types/Filters';
 import { HTTPError } from 'types/HTTPError';
-import { TableActionDef, TableColumnDef, TableDef, TableFilterDef } from 'types/Table';
+import { TableActionDef, TableColumnDef, TableDef } from 'types/Table';
 import { Tag, TagButtonAction } from 'types/Tag';
 import { TransactionButtonAction } from 'types/Transaction';
 import { User, UserButtonAction } from 'types/User';
@@ -31,6 +31,7 @@ import { User, UserButtonAction } from 'types/User';
 import { CentralServerService } from '../../../services/central-server.service';
 import { DialogService } from '../../../services/dialog.service';
 import { MessageService } from '../../../services/message.service';
+import { IssuerFilter, organizations } from '../../../shared/filters/filter/issuer-filter';
 import { TableAutoRefreshAction } from '../../../shared/table/actions/table-auto-refresh-action';
 import { TableRefreshAction } from '../../../shared/table/actions/table-refresh-action';
 import { TableActivateTagAction, TableActivateTagActionDef } from '../../../shared/table/actions/tags/table-activate-tag-action';
@@ -39,7 +40,6 @@ import { TableDeactivateTagAction, TableDeactivateTagActionDef } from '../../../
 import { TableDeleteTagAction, TableDeleteTagActionDef } from '../../../shared/table/actions/tags/table-delete-tag-action';
 import { TableEditTagAction, TableEditTagActionDef } from '../../../shared/table/actions/tags/table-edit-tag-action';
 import { TableNavigateToUserAction } from '../../../shared/table/actions/users/table-navigate-to-user-action';
-import { IssuerFilter } from '../../../shared/table/filters/issuer-filter';
 import { TableDataSource } from '../../../shared/table/table-data-source';
 import { Utils } from '../../../utils/Utils';
 import { TagStatusFormatterComponent } from '../formatters/tag-status-formatter.component';
@@ -63,8 +63,8 @@ export class TagsListTableDataSource extends TableDataSource<Tag> {
   private importAction = new TableImportTagsAction().getActionDef();
   private exportAction = new TableExportTagsAction().getActionDef();
   private projectFields: string[];
-  private userFilter: TableFilterDef;
-  private issuerFilter: TableFilterDef;
+  private userFilter: FilterDef;
+  private issuerFilter: FilterDef;
   private metadata?: Record<string, AuthorizationDefinitionFieldMetadata>;
   public constructor(
     public spinnerService: SpinnerService,
@@ -428,12 +428,12 @@ export class TagsListTableDataSource extends TableDataSource<Tag> {
     ];
   }
 
-  public buildTableFiltersDef(): TableFilterDef[] {
+  public buildTableFiltersDef(): FilterDef[] {
     this.issuerFilter = new IssuerFilter().getFilterDef();
     const statusFilter = new StatusFilter().getFilterDef();
     this.userFilter = new UserTableFilter([this.issuerFilter]).getFilterDef();
     this.userFilter.visible = false;
-    const filters: TableFilterDef[] = [
+    const filters: FilterDef[] = [
       this.issuerFilter,
       statusFilter,
       this.userFilter

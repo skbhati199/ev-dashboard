@@ -1,12 +1,13 @@
-import { TableFilter } from '../../../shared/table/filters/table-filter';
-import { KeyValue } from '../../../types/GlobalType';
-import { FilterType, TableFilterDef } from '../../../types/Table';
+import { BaseFilter } from 'shared/filters/filter/base-filter';
+import { FilterDef, FilterType } from 'types/Filters';
 
-export class UserFreeAccessFilter extends TableFilter {
+import { KeyValue } from '../../../types/GlobalType';
+
+export class UserFreeAccessFilter extends BaseFilter {
   public constructor(defaultValue = false) {
     super();
     // Define filter
-    const filterDef: TableFilterDef = {
+    const filterDef: FilterDef = {
       id: 'freeAccess',
       httpId: 'FreeAccess',
       type: FilterType.DROPDOWN,

@@ -1,12 +1,13 @@
-import { sources } from '../../../shared/model/logs.model';
-import { TableFilter } from '../../../shared/table/filters/table-filter';
-import { FilterType, TableFilterDef } from '../../../types/Table';
+import { BaseFilter } from 'shared/filters/filter/base-filter';
+import { FilterDef, FilterType } from 'types/Filters';
 
-export class LogSourceTableFilter extends TableFilter {
+import { sources } from '../../../shared/model/logs.model';
+
+export class LogSourceTableFilter extends BaseFilter {
   public constructor() {
     super();
     // Define filter
-    const filterDef: TableFilterDef = {
+    const filterDef: FilterDef = {
       id: 'source',
       httpId: 'Source',
       type: FilterType.DROPDOWN,

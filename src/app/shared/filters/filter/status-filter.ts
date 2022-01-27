@@ -1,12 +1,13 @@
-import { TableFilter } from '../../../shared/table/filters/table-filter';
-import { KeyValue } from '../../../types/GlobalType';
-import { FilterType, TableFilterDef } from '../../../types/Table';
+import { FilterDef, FilterType } from 'types/Filters';
 
-export class StatusFilter extends TableFilter {
+import { KeyValue } from '../../../types/GlobalType';
+import { BaseFilter } from './base-filter';
+
+export class StatusFilter extends BaseFilter {
   public constructor() {
     super();
     // Define filter
-    const filterDef: TableFilterDef = {
+    const filterDef: FilterDef = {
       id: 'status',
       httpId: 'Active',
       type: FilterType.DROPDOWN,

@@ -4,11 +4,18 @@ import { Router } from '@angular/router';
 import { TranslateService } from '@ngx-translate/core';
 import { Observable } from 'rxjs';
 import { TransactionDialogComponent } from 'shared/dialogs/transaction/transaction-dialog.component';
+import { ChargingStationTableFilter } from 'shared/filters/filter/charging-station-table-filter';
+import { ConnectorTableFilter } from 'shared/filters/filter/connector-table-filter';
+import { DateRangeTableFilter } from 'shared/filters/filter/date-range-table-filter';
+import { ErrorTypeTableFilter } from 'shared/filters/filter/error-type-table-filter';
+import { IssuerFilter } from 'shared/filters/filter/issuer-filter';
+import { SiteAreaTableFilter } from 'shared/filters/filter/site-area-table-filter';
+import { SiteTableFilter } from 'shared/filters/filter/site-table-filter';
+import { UserTableFilter } from 'shared/filters/filter/user-table-filter';
 import { AppDurationPipe } from 'shared/formatters/app-duration.pipe';
 import { AppUnitPipe } from 'shared/formatters/app-unit.pipe';
-import { DateRangeTableFilter } from 'shared/table/filters/date-range-table-filter';
-import { IssuerFilter } from 'shared/table/filters/issuer-filter';
 import { CarCatalog } from 'types/Car';
+import { FilterDef } from 'types/Filters';
 
 import { AuthorizationService } from '../../../services/authorization.service';
 import { CentralServerService } from '../../../services/central-server.service';
@@ -28,17 +35,11 @@ import { TableRefreshAction } from '../../../shared/table/actions/table-refresh-
 import { TableDeleteTransactionAction, TableDeleteTransactionActionDef } from '../../../shared/table/actions/transactions/table-delete-transaction-action';
 import { TableDeleteTransactionsAction, TableDeleteTransactionsActionDef } from '../../../shared/table/actions/transactions/table-delete-transactions-action';
 import { TableViewTransactionAction, TableViewTransactionActionDef, TransactionDialogData } from '../../../shared/table/actions/transactions/table-view-transaction-action';
-import { ChargingStationTableFilter } from '../../../shared/table/filters/charging-station-table-filter';
-import { ConnectorTableFilter } from '../../../shared/table/filters/connector-table-filter';
-import { ErrorTypeTableFilter } from '../../../shared/table/filters/error-type-table-filter';
-import { SiteAreaTableFilter } from '../../../shared/table/filters/site-area-table-filter';
-import { SiteTableFilter } from '../../../shared/table/filters/site-table-filter';
-import { UserTableFilter } from '../../../shared/table/filters/user-table-filter';
 import { TableDataSource } from '../../../shared/table/table-data-source';
 import { ActionResponse, DataResult } from '../../../types/DataResult';
 import { ErrorMessage, TransactionInError, TransactionInErrorType } from '../../../types/InError';
 import { LogButtonAction } from '../../../types/Log';
-import { TableActionDef, TableColumnDef, TableDef, TableFilterDef } from '../../../types/Table';
+import { TableActionDef, TableColumnDef, TableDef } from '../../../types/Table';
 import { TenantComponents } from '../../../types/Tenant';
 import { Transaction, TransactionButtonAction } from '../../../types/Transaction';
 import { User } from '../../../types/User';
@@ -294,9 +295,9 @@ export class TransactionsInErrorTableDataSource extends TableDataSource<Transact
     return `${chargingStationID} - ${this.appConnectorIdPipe.transform(row.connectorId)}`;
   }
 
-  public buildTableFiltersDef(): TableFilterDef[] {
+  public buildTableFiltersDef(): FilterDef[] {
     // Build filters
-    const filters: TableFilterDef[] = [
+    const filters: FilterDef[] = [
       new DateRangeTableFilter({
         translateService: this.translateService
       }).getFilterDef(),

@@ -1,12 +1,13 @@
-import { ChargingStationsDialogComponent } from '../../../shared/dialogs/charging-stations/charging-stations-dialog.component';
-import { FilterType, TableFilterDef } from '../../../types/Table';
-import { TableFilter } from './table-filter';
+import { FilterDef, FilterType } from 'types/Filters';
 
-export class ChargingStationTableFilter extends TableFilter {
-  public constructor(dependentFilters?: TableFilterDef[]) {
+import { ChargingStationsDialogComponent } from '../../../shared/dialogs/charging-stations/charging-stations-dialog.component';
+import { BaseFilter } from './base-filter';
+
+export class ChargingStationTableFilter extends BaseFilter {
+  public constructor(dependentFilters?: FilterDef[]) {
     super();
     // Define filter
-    const filterDef: TableFilterDef = {
+    const filterDef: FilterDef = {
       id: 'charger',
       httpId: 'ChargingStationID',
       type: FilterType.DIALOG_TABLE,

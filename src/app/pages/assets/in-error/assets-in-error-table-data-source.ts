@@ -4,27 +4,28 @@ import { Router } from '@angular/router';
 import { TranslateService } from '@ngx-translate/core';
 import { Observable } from 'rxjs';
 import { ComponentService } from 'services/component.service';
-import { SiteTableFilter } from 'shared/table/filters/site-table-filter';
-import { TenantComponents } from 'types/Tenant';
 
 import { CentralServerService } from '../../../services/central-server.service';
 import { DialogService } from '../../../services/dialog.service';
 import { MessageService } from '../../../services/message.service';
 import { SpinnerService } from '../../../services/spinner.service';
 import { ErrorCodeDetailsComponent } from '../../../shared/component/error-code-details/error-code-details.component';
+import { ErrorTypeTableFilter } from '../../../shared/filters/filter/error-type-table-filter';
+import { IssuerFilter } from '../../../shared/filters/filter/issuer-filter';
+import { SiteAreaTableFilter } from '../../../shared/filters/filter/site-area-table-filter';
+import { SiteTableFilter } from '../../../shared/filters/filter/site-table-filter';
 import { TableDeleteAssetAction, TableDeleteAssetActionDef } from '../../../shared/table/actions/assets/table-delete-asset-action';
 import { TableEditAssetAction, TableEditAssetActionDef } from '../../../shared/table/actions/assets/table-edit-asset-action';
 import { TableAutoRefreshAction } from '../../../shared/table/actions/table-auto-refresh-action';
 import { TableMoreAction } from '../../../shared/table/actions/table-more-action';
 import { TableRefreshAction } from '../../../shared/table/actions/table-refresh-action';
-import { ErrorTypeTableFilter } from '../../../shared/table/filters/error-type-table-filter';
-import { IssuerFilter } from '../../../shared/table/filters/issuer-filter';
-import { SiteAreaTableFilter } from '../../../shared/table/filters/site-area-table-filter';
 import { TableDataSource } from '../../../shared/table/table-data-source';
 import { AssetButtonAction } from '../../../types/Asset';
 import { DataResult } from '../../../types/DataResult';
+import { FilterDef } from '../../../types/Filters';
 import { AssetInError, AssetInErrorType, ErrorMessage } from '../../../types/InError';
-import { TableActionDef, TableColumnDef, TableDef, TableFilterDef } from '../../../types/Table';
+import { TableActionDef, TableColumnDef, TableDef } from '../../../types/Table';
+import { TenantComponents } from '../../../types/Tenant';
 import { Utils } from '../../../utils/Utils';
 import { AssetDialogComponent } from '../asset/asset-dialog.component';
 
@@ -136,9 +137,9 @@ export class AssetsInErrorTableDataSource extends TableDataSource<AssetInError> 
     }
   }
 
-  public buildTableFiltersDef(): TableFilterDef[] {
+  public buildTableFiltersDef(): FilterDef[] {
     const issuerFilter = new IssuerFilter().getFilterDef();
-    const filters: TableFilterDef[] = [
+    const filters: FilterDef[] = [
       issuerFilter,
     ];
     // Show Site Area Filter If Organization component is active

@@ -13,9 +13,10 @@ import { TableOpenURLAction } from '../../../../shared/table/actions/table-open-
 import { TableRefreshAction } from '../../../../shared/table/actions/table-refresh-action';
 import { TableDataSource } from '../../../../shared/table/table-data-source';
 import { DataResult } from '../../../../types/DataResult';
+import { FilterDef } from '../../../../types/Filters';
 import { ButtonAction } from '../../../../types/GlobalType';
 import { SettingLink } from '../../../../types/Setting';
-import { ButtonType, DropdownItem, TableActionDef, TableColumnDef, TableDef, TableFilterDef } from '../../../../types/Table';
+import { ButtonType, DropdownItem, TableActionDef, TableColumnDef, TableDef } from '../../../../types/Table';
 import { AnalyticsLinkDialogComponent } from './analytics-link-dialog.component';
 
 @Injectable()
@@ -168,7 +169,7 @@ export class AnalyticsLinksTableDataSource extends TableDataSource<SettingLink> 
     ];
   }
 
-  public buildTableFiltersDef(): TableFilterDef[] {
+  public buildTableFiltersDef(): FilterDef[] {
     return [];
   }
 

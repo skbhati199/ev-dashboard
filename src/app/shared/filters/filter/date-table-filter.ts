@@ -1,13 +1,14 @@
 import * as moment from 'moment';
+import { FilterDef } from 'types/Filters';
 
-import { FilterType, TableFilterDef } from '../../../types/Table';
-import { TableFilter } from './table-filter';
+import { FilterType } from '../../../types/Table';
+import { BaseFilter } from './base-filter';
 
-export class DateTableFilter extends TableFilter {
+export class DateTableFilter extends BaseFilter {
   public constructor() {
     super();
     // Define filter
-    const filterDef: TableFilterDef = {
+    const filterDef: FilterDef = {
       id: 'timestamp',
       httpId: 'Date',
       type: FilterType.DATE,

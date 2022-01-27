@@ -3,10 +3,15 @@ import { Router } from '@angular/router';
 import { TranslateService } from '@ngx-translate/core';
 import * as moment from 'moment';
 import { Observable } from 'rxjs';
-import { ConnectorTableFilter } from 'shared/table/filters/connector-table-filter';
-import { DateRangeTableFilter } from 'shared/table/filters/date-range-table-filter';
-import { IssuerFilter } from 'shared/table/filters/issuer-filter';
-import { SiteTableFilter } from 'shared/table/filters/site-table-filter';
+import { ChargingStationTableFilter } from 'shared/filters/filter/charging-station-table-filter';
+import { ConnectorTableFilter } from 'shared/filters/filter/connector-table-filter';
+import { DateRangeTableFilter } from 'shared/filters/filter/date-range-table-filter';
+import { IssuerFilter } from 'shared/filters/filter/issuer-filter';
+import { ReportTableFilter } from 'shared/filters/filter/report-table-filter';
+import { SiteAreaTableFilter } from 'shared/filters/filter/site-area-table-filter';
+import { SiteTableFilter } from 'shared/filters/filter/site-table-filter';
+import { UserTableFilter } from 'shared/filters/filter/user-table-filter';
+import { FilterDef } from 'types/Filters';
 
 import { AuthorizationService } from '../../../services/authorization.service';
 import { CentralServerService } from '../../../services/central-server.service';
@@ -29,15 +34,11 @@ import { TableExportTransactionsAction, TableExportTransactionsActionDef } from 
 import { TableOpenURLRefundAction } from '../../../shared/table/actions/transactions/table-open-url-concur-action';
 import { TableRefundTransactionsAction, TableRefundTransactionsActionDef } from '../../../shared/table/actions/transactions/table-refund-transactions-action';
 import { TableSyncRefundTransactionsAction, TableSyncRefundTransactionsActionDef } from '../../../shared/table/actions/transactions/table-sync-refund-transactions-action';
-import { ChargingStationTableFilter } from '../../../shared/table/filters/charging-station-table-filter';
-import { ReportTableFilter } from '../../../shared/table/filters/report-table-filter';
-import { SiteAreaTableFilter } from '../../../shared/table/filters/site-area-table-filter';
-import { UserTableFilter } from '../../../shared/table/filters/user-table-filter';
 import { TableDataSource } from '../../../shared/table/table-data-source';
 import { CarCatalog } from '../../../types/Car';
 import { DataResult, TransactionRefundDataResult } from '../../../types/DataResult';
 import { RefundSettings } from '../../../types/Setting';
-import { TableActionDef, TableColumnDef, TableDef, TableFilterDef } from '../../../types/Table';
+import { TableActionDef, TableColumnDef, TableDef } from '../../../types/Table';
 import { TenantComponents } from '../../../types/Tenant';
 import { Transaction, TransactionButtonAction } from '../../../types/Transaction';
 import { User } from '../../../types/User';
@@ -249,10 +250,10 @@ export class TransactionsRefundTableDataSource extends TableDataSource<Transacti
     return `${chargingStationID} - ${this.appConnectorIdPipe.transform(row.connectorId)}`;
   }
 
-  public buildTableFiltersDef(): TableFilterDef[] {
-    let userFilter: TableFilterDef;
+  public buildTableFiltersDef(): FilterDef[] {
+    let userFilter: FilterDef;
     const issuerFilter = new IssuerFilter().getFilterDef();
-    const filters: TableFilterDef[] = [
+    const filters: FilterDef[] = [
       new DateRangeTableFilter({
         translateService: this.translateService
       }).getFilterDef(),

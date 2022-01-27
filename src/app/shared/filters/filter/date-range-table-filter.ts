@@ -1,11 +1,11 @@
 import { TranslateService } from '@ngx-translate/core';
 import * as moment from 'moment';
+import { FilterDef, FilterType } from 'types/Filters';
 import { Utils } from 'utils/Utils';
 
-import { FilterType, TableFilterDef } from '../../../types/Table';
-import { TableFilter } from './table-filter';
+import { BaseFilter } from './base-filter';
 
-export class DateRangeTableFilter extends TableFilter {
+export class DateRangeTableFilter extends BaseFilter {
   public constructor(options: {
     translateService: TranslateService; showSeconds?: boolean; start?: moment.Moment; end?: moment.Moment;
     id?: string; startDateTimeHttpId?: string; endDateTimeHttpId?: string;
@@ -14,7 +14,7 @@ export class DateRangeTableFilter extends TableFilter {
     // Define filter
     const startDate = Utils.isNullOrUndefined(options.start) ? moment().startOf('y').toDate() : options.start.toDate();
     const endDate = Utils.isNullOrUndefined(options.end) ? moment().toDate() : options.end.toDate();
-    const filterDef: TableFilterDef = {
+    const filterDef: FilterDef = {
       id: options.id ? options.id : 'dateRange',
       httpId: '', //Not used as startDateTimeHttpId and endDateTimeHttpId are used instead
       type: FilterType.DATE_RANGE,

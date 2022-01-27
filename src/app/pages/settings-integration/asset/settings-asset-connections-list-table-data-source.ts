@@ -13,9 +13,10 @@ import { TableRefreshAction } from '../../../shared/table/actions/table-refresh-
 import { EditableTableDataSource } from '../../../shared/table/editable-table-data-source';
 import { AssetButtonAction } from '../../../types/Asset';
 import { DataResult } from '../../../types/DataResult';
+import { FilterDef } from '../../../types/Filters';
 import { ButtonAction } from '../../../types/GlobalType';
 import { AssetConnectionSetting, AssetConnectionType } from '../../../types/Setting';
-import { ButtonType, TableActionDef, TableColumnDef, TableDef, TableEditType, TableFilterDef } from '../../../types/Table';
+import { ButtonType, TableActionDef, TableColumnDef, TableDef, TableEditType } from '../../../types/Table';
 import { AssetConnectionDialogComponent } from './connection/asset-connection.dialog.component';
 import { TableCheckAssetConnectionAction } from './table-actions/table-check-asset-connection-action';
 
@@ -143,7 +144,7 @@ export class SettingsAssetConnectionEditableTableDataSource extends EditableTabl
     ];
   }
 
-  public buildTableFiltersDef(): TableFilterDef[] {
+  public buildTableFiltersDef(): FilterDef[] {
     return [];
   }
 

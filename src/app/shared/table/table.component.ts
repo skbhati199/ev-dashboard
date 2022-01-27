@@ -1,24 +1,19 @@
 import { AfterViewInit, Component, ElementRef, Input, OnDestroy, OnInit, QueryList, ViewChild, ViewChildren } from '@angular/core';
 import { MatCheckboxChange } from '@angular/material/checkbox';
-import { MatDialog, MatDialogConfig } from '@angular/material/dialog';
-import { MatFormField } from '@angular/material/form-field';
+import { MatDialog } from '@angular/material/dialog';
 import { MatSlideToggleChange } from '@angular/material/slide-toggle';
 import { MatSort } from '@angular/material/sort';
-import { MatDatetimepickerInputEvent } from '@mat-datetimepicker/core';
 import { TranslateService } from '@ngx-translate/core';
-import * as moment from 'moment';
-import { DaterangepickerDirective } from 'ngx-daterangepicker-material';
-import { fromEvent } from 'rxjs';
-import { debounceTime, distinctUntilChanged, map, takeWhile } from 'rxjs/operators';
+import { takeWhile } from 'rxjs/operators';
+import { FilterType } from 'types/Filters';
 
 import { ConfigService } from '../../services/config.service';
 import { LocaleService } from '../../services/locale.service';
 import { SpinnerService } from '../../services/spinner.service';
 import { WindowService } from '../../services/window.service';
 import { ButtonAction } from '../../types/GlobalType';
-import { DropdownItem, FilterType, TableActionDef, TableColumnDef, TableData, TableEditType, TableFilterDef } from '../../types/Table';
+import { DropdownItem, TableActionDef, TableColumnDef, TableData, TableEditType } from '../../types/Table';
 import { Constants } from '../../utils/Constants';
-import { Utils } from '../../utils/Utils';
 import { TableDataSource } from './table-data-source';
 
 @Component({
@@ -27,10 +22,7 @@ import { TableDataSource } from './table-data-source';
 })
 export class TableComponent implements OnInit, AfterViewInit, OnDestroy {
   @Input() public dataSource!: TableDataSource<TableData>;
-  @ViewChild('searchInput') public searchInput!: ElementRef;
-  @ViewChildren('ngxDatePickerElement') public datePickerElements!: QueryList<MatFormField>;
-  @ViewChildren(DaterangepickerDirective) public datePickers: QueryList<DaterangepickerDirective>;
-  public searchPlaceholder = '';
+
   public ongoingAutoRefresh = false;
   public sort: MatSort = new MatSort();
   public maxRecords = Constants.INFINITE_RECORDS;
@@ -56,7 +48,6 @@ export class TableComponent implements OnInit, AfterViewInit, OnDestroy {
     public windowService: WindowService,
     private dialog: MatDialog) {
     // Set placeholder
-    this.searchPlaceholder = this.translateService.instant('general.search');
     this.refreshIntervalSecs = this.configService.getCentralSystemServer().pollIntervalSecs;
   }
 
@@ -87,17 +78,17 @@ export class TableComponent implements OnInit, AfterViewInit, OnDestroy {
       // Init Search
       if (this.dataSource.tableDef && this.dataSource.tableDef.search && this.dataSource.tableDef.search.enabled) {
         // Init initial value
-        this.searchInput.nativeElement.value = this.dataSource.getSearchValue();
+        // this.searchInput.nativeElement.value = this.dataSource.getSearchValue();
         // Observe the Search field
-        fromEvent(this.searchInput.nativeElement, 'input').pipe(
-          takeWhile(() => this.alive),
-          map((e: KeyboardEvent) => e.target['value']),
-          debounceTime(this.configService.getAdvanced().debounceTimeSearchMillis),
-          distinctUntilChanged(),
-        ).subscribe((text: string) => {
-          this.dataSource.setSearchValue(text);
-          this.refresh();
-        });
+        // fromEvent(this.searchInput.nativeElement, 'input').pipe(
+        //   takeWhile(() => this.alive),
+        //   map((e: KeyboardEvent) => e.target['value']),
+        //   debounceTime(this.configService.getAdvanced().debounceTimeSearchMillis),
+        //   distinctUntilChanged(),
+        // ).subscribe((text: string) => {
+        //   this.dataSource.setSearchValue(text);
+        //   this.refresh();
+        // });
       }
       // Search for Auto-Refresh
       for (const tableActionRightDef of this.dataSource.tableActionsRightDef) {
@@ -133,83 +124,83 @@ export class TableComponent implements OnInit, AfterViewInit, OnDestroy {
     }
   }
 
-  public filterChanged(filterDef: TableFilterDef) {
-    this.dataSource.filterChanged(filterDef);
-    // this.updateUrlWithFilters(filterDef);
-    this.refresh();
-  }
+  // public filterChanged(filterDef: TableFilterDef) {
+  //   this.dataSource.filterChanged(filterDef);
+  //   // this.updateUrlWithFilters(filterDef);
+  //   this.refresh();
+  // }
 
-  public dateRangeChanged(filterDef: TableFilterDef, event: any) {
-    const currentValue = filterDef.currentValue;
-    if (currentValue?.startDate !== event.startDate || currentValue?.endDate !== event.endDate) {
-      filterDef.currentValue = {
-        startDate: event?.startDate.toDate(),
-        endDate: event?.endDate.toDate()
-      };
-      for (let picker of this.datePickers) {
-        picker.picker.updateCalendars();
-      }
-      this.filterChanged(filterDef);
-    }
-  }
+  // public dateRangeChanged(filterDef: TableFilterDef, event: any) {
+  //   const currentValue = filterDef.currentValue;
+  //   if (currentValue?.startDate !== event.startDate || currentValue?.endDate !== event.endDate) {
+  //     filterDef.currentValue = {
+  //       startDate: event?.startDate.toDate(),
+  //       endDate: event?.endDate.toDate()
+  //     };
+  //     for (let picker of this.datePickers) {
+  //       picker.picker.updateCalendars();
+  //     }
+  //     this.filterChanged(filterDef);
+  //   }
+  // }
 
-  public dateRangeChangedDirectly(filterDef: TableFilterDef, event: any) {
-    const splitRangeValue = event.target.value.split(' - ');
-    this.dateRangeChanged(filterDef, {
-      startDate: moment(splitRangeValue[0], filterDef.dateRangeTableFilterDef.locale.displayFormat),
-      endDate: moment(splitRangeValue[1], filterDef.dateRangeTableFilterDef.locale.displayFormat)
-    });
-  }
+  // public dateRangeChangedDirectly(filterDef: TableFilterDef, event: any) {
+  //   const splitRangeValue = event.target.value.split(' - ');
+  //   this.dateRangeChanged(filterDef, {
+  //     startDate: moment(splitRangeValue[0], filterDef.dateRangeTableFilterDef.locale.displayFormat),
+  //     endDate: moment(splitRangeValue[1], filterDef.dateRangeTableFilterDef.locale.displayFormat)
+  //   });
+  // }
 
-  public setDateRangeToLatest(filterDef: TableFilterDef) {
-    const startDate = moment(filterDef.currentValue.startDate);
-    const endDate = moment();
-    this.dateRangeChanged(filterDef, {
-      startDate,
-      endDate
-    });
-  }
+  // public setDateRangeToLatest(filterDef: TableFilterDef) {
+  //   const startDate = moment(filterDef.currentValue.startDate);
+  //   const endDate = moment();
+  //   this.dateRangeChanged(filterDef, {
+  //     startDate,
+  //     endDate
+  //   });
+  // }
 
-  public openDateRanges(parent: MatFormField) {
-    const parentHTMLElement = (parent.getConnectedOverlayOrigin().nativeElement as HTMLElement);
-    for (const picker of this.datePickers) {
-      // Close any other open pickers
-      if (parentHTMLElement.contains(picker.picker.pickerContainer.nativeElement as HTMLElement)) {
-        picker.toggle();
-      } else {
-        picker.hide();
-      }
-    }
-  }
+  // public openDateRanges(parent: MatFormField) {
+  //   const parentHTMLElement = (parent.getConnectedOverlayOrigin().nativeElement as HTMLElement);
+  //   for (const picker of this.datePickers) {
+  //     // Close any other open pickers
+  //     if (parentHTMLElement.contains(picker.picker.pickerContainer.nativeElement as HTMLElement)) {
+  //       picker.toggle();
+  //     } else {
+  //       picker.hide();
+  //     }
+  //   }
+  // }
 
-  public updateUrlWithFilters(filter: TableFilterDef) {
-    // Update URL with filter value
-    if (filter.httpId && filter.httpId !== 'null') {
-      // Capitalize first letter of search id
-      const filterIdInCap = filter.httpId;
-      if (filter.currentValue === 'null' || !filter.currentValue) {
-        this.windowService.deleteSearch(filterIdInCap);
-      } else {
-        switch (filter.type) {
-          case FilterType.DIALOG_TABLE: {
-            this.windowService.setSearch(filterIdInCap, filter.currentValue[0].key);
-            break;
-          }
-          case FilterType.DROPDOWN: {
-            this.windowService.setSearch(filterIdInCap, filter.currentValue);
-            break;
-          }
-          case FilterType.DATE: {
-            this.windowService.setSearch(filterIdInCap, JSON.stringify(filter.currentValue));
-            break;
-          }
-          default: {
-            break;
-          }
-        }
-      }
-    }
-  }
+  // public updateUrlWithFilters(filter: TableFilterDef) {
+  //   // Update URL with filter value
+  //   if (filter.httpId && filter.httpId !== 'null') {
+  //     // Capitalize first letter of search id
+  //     const filterIdInCap = filter.httpId;
+  //     if (filter.currentValue === 'null' || !filter.currentValue) {
+  //       this.windowService.deleteSearch(filterIdInCap);
+  //     } else {
+  //       switch (filter.type) {
+  //         case FilterType.DIALOG_TABLE: {
+  //           this.windowService.setSearch(filterIdInCap, filter.currentValue[0].key);
+  //           break;
+  //         }
+  //         case FilterType.DROPDOWN: {
+  //           this.windowService.setSearch(filterIdInCap, filter.currentValue);
+  //           break;
+  //         }
+  //         case FilterType.DATE: {
+  //           this.windowService.setSearch(filterIdInCap, JSON.stringify(filter.currentValue));
+  //           break;
+  //         }
+  //         default: {
+  //           break;
+  //         }
+  //       }
+  //     }
+  //   }
+  // }
 
   public sortChanged(tableColumnDef: TableColumnDef) {
     if (tableColumnDef.sortable) {
@@ -225,63 +216,63 @@ export class TableComponent implements OnInit, AfterViewInit, OnDestroy {
     }
   }
 
-  public dateFilterChanged(filterDef: TableFilterDef, event: MatDatetimepickerInputEvent<any>) {
-    // Date?
-    if (filterDef.type === FilterType.DATE) {
-      filterDef.currentValue = event.value ? event.value.toDate() : null;
-    }
-    // Update filter
-    this.filterChanged(filterDef);
-  }
+  // public dateFilterChanged(filterDef: TableFilterDef, event: MatDatetimepickerInputEvent<any>) {
+  //   // Date?
+  //   if (filterDef.type === FilterType.DATE) {
+  //     filterDef.currentValue = event.value ? event.value.toDate() : null;
+  //   }
+  //   // Update filter
+  //   this.filterChanged(filterDef);
+  // }
 
-  public resetDialogTableFilter(filterDef: TableFilterDef) {
-    let filterIsChanged = false;
-    if ((filterDef.type === FilterType.DIALOG_TABLE ||
-      filterDef.type === FilterType.DROPDOWN) && filterDef.multiple) {
-      if (!Utils.isEmptyArray(filterDef.currentValue)) {
-        filterDef.currentValue = [];
-        filterIsChanged = true;
-      }
-      filterDef.cleared = true;
-    } else {
-      if (filterDef.currentValue) {
-        filterDef.currentValue = null;
-        filterIsChanged = true;
-      }
-    }
-    if (filterIsChanged) {
-      this.filterChanged(filterDef);
-    }
-  }
+  // public resetDialogTableFilter(filterDef: TableFilterDef) {
+  //   let filterIsChanged = false;
+  //   if ((filterDef.type === FilterType.DIALOG_TABLE ||
+  //     filterDef.type === FilterType.DROPDOWN) && filterDef.multiple) {
+  //     if (!Utils.isEmptyArray(filterDef.currentValue)) {
+  //       filterDef.currentValue = [];
+  //       filterIsChanged = true;
+  //     }
+  //     filterDef.cleared = true;
+  //   } else {
+  //     if (filterDef.currentValue) {
+  //       filterDef.currentValue = null;
+  //       filterIsChanged = true;
+  //     }
+  //   }
+  //   if (filterIsChanged) {
+  //     this.filterChanged(filterDef);
+  //   }
+  // }
 
-  public showDialogTableFilter(filterDef: TableFilterDef) {
-    // Disable outside click close
-    const dialogConfig = new MatDialogConfig();
-    dialogConfig.disableClose = true;
-    // Init button title
-    dialogConfig.data = {
-      validateButtonTitle: 'general.set_filter',
-    };
-    Utils.buildDependentFilters(filterDef);
-    if (filterDef.dialogComponentData) {
-      Object.assign(dialogConfig.data, filterDef.dialogComponentData);
-    }
-    if (filterDef.cleared) {
-      dialogConfig.data.cleared = true;
-      filterDef.cleared = false;
-    }
-    // Render the Dialog Container transparent
-    dialogConfig.panelClass = 'transparent-dialog-container';
-    // Show
-    const dialogRef = this.dialog.open(filterDef.dialogComponent, dialogConfig);
-    // Add sites
-    dialogRef.afterClosed().pipe(takeWhile(() => this.alive)).subscribe((data) => {
-      if (data) {
-        filterDef.currentValue = data;
-        this.filterChanged(filterDef);
-      }
-    });
-  }
+  // public showDialogTableFilter(filterDef: TableFilterDef) {
+  //   // Disable outside click close
+  //   const dialogConfig = new MatDialogConfig();
+  //   dialogConfig.disableClose = true;
+  //   // Init button title
+  //   dialogConfig.data = {
+  //     validateButtonTitle: 'general.set_filter',
+  //   };
+  //   Utils.buildDependentFilters(filterDef);
+  //   if (filterDef.dialogComponentData) {
+  //     Object.assign(dialogConfig.data, filterDef.dialogComponentData);
+  //   }
+  //   if (filterDef.cleared) {
+  //     dialogConfig.data.cleared = true;
+  //     filterDef.cleared = false;
+  //   }
+  //   // Render the Dialog Container transparent
+  //   dialogConfig.panelClass = 'transparent-dialog-container';
+  //   // Show
+  //   const dialogRef = this.dialog.open(filterDef.dialogComponent, dialogConfig);
+  //   // Add sites
+  //   dialogRef.afterClosed().pipe(takeWhile(() => this.alive)).subscribe((data) => {
+  //     if (data) {
+  //       filterDef.currentValue = data;
+  //       this.filterChanged(filterDef);
+  //     }
+  //   });
+  // }
 
   public toggleAutoRefresh({ checked }) {
     this.tableActionAutoRefresh.currentValue = checked;
@@ -292,13 +283,13 @@ export class TableComponent implements OnInit, AfterViewInit, OnDestroy {
     }
   }
 
-  public fetchLatestRefresh(autoRefresh = false) {
-    const dateRangeFilters = this.dataSource.tableFiltersDef.filter(filter => filter.type === FilterType.DATE_RANGE);
-    for (let filter of dateRangeFilters) {
-      this.setDateRangeToLatest(filter);
-    }
-    this.refresh(autoRefresh);
-  }
+  // public fetchLatestRefresh(autoRefresh = false) {
+  //   const dateRangeFilters = this.dataSource.tableFiltersDef.filter(filter => filter.type === FilterType.DATE_RANGE);
+  //   for (let filter of dateRangeFilters) {
+  //     this.setDateRangeToLatest(filter);
+  //   }
+  //   this.refresh(autoRefresh);
+  // }
 
   public refresh(autoRefresh = false) {
     // Start refresh
@@ -323,18 +314,18 @@ export class TableComponent implements OnInit, AfterViewInit, OnDestroy {
     }
   }
 
-  public resetFilters() {
-    this.dataSource.setSearchValue('');
-    this.dataSource.resetFilters();
-    this.searchInput.nativeElement.value = '';
-    this.refresh();
-  }
+  // public resetFilters() {
+  //   this.dataSource.setSearchValue('');
+  //   this.dataSource.resetFilters();
+  //   this.searchInput.nativeElement.value = '';
+  //   this.refresh();
+  // }
 
-  public resetSearchFilter(){
-    this.searchInput.nativeElement.value = '';
-    this.dataSource.setSearchValue('');
-    this.refresh();
-  }
+  // public resetSearchFilter(){
+  //   this.searchInput.nativeElement.value = '';
+  //   this.dataSource.setSearchValue('');
+  //   this.refresh();
+  // }
 
   public actionTriggered(actionDef: TableActionDef, event?: MouseEvent | MatSlideToggleChange) {
     // Slide
@@ -414,7 +405,7 @@ export class TableComponent implements OnInit, AfterViewInit, OnDestroy {
       // Create the timer
       this.autoRefreshTimeout = setTimeout(() => {
         if (this.alive && !this.loading && !this.ongoingRefresh) {
-          this.fetchLatestRefresh(true);
+          // this.fetchLatestRefresh(true);
         }
       }, this.refreshIntervalSecs * 1000);
     }

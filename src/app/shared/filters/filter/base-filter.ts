@@ -1,13 +1,13 @@
-import { TableFilterDef } from '../../../types/Table';
+import { FilterDef } from "types/Filters";
 
-export abstract class TableFilter {
-  private filterDef!: TableFilterDef;
+export abstract class BaseFilter {
+  private filterDef!: FilterDef;
 
-  public getFilterDef(): TableFilterDef {
+  public getFilterDef(): FilterDef {
     return this.filterDef;
   }
 
-  public setFilterDef(filterDef: TableFilterDef) {
+  public setFilterDef(filterDef: FilterDef) {
     if (!filterDef.reset) {
       if (filterDef.multiple) {
         filterDef.reset = () => {

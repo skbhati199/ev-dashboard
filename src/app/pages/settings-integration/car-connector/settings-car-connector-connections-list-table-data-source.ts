@@ -2,6 +2,7 @@ import { Injectable } from '@angular/core';
 import { MatDialog, MatDialogConfig } from '@angular/material/dialog';
 import { TranslateService } from '@ngx-translate/core';
 import { Observable } from 'rxjs';
+import { FilterDef } from 'types/Filters';
 
 import { DialogService } from '../../../services/dialog.service';
 import { SpinnerService } from '../../../services/spinner.service';
@@ -11,7 +12,7 @@ import { EditableTableDataSource } from '../../../shared/table/editable-table-da
 import { DataResult } from '../../../types/DataResult';
 import { ButtonAction } from '../../../types/GlobalType';
 import { CarConnectorConnectionSetting, CarConnectorConnectionType } from '../../../types/Setting';
-import { ButtonType, TableActionDef, TableColumnDef, TableDef, TableEditType, TableFilterDef } from '../../../types/Table';
+import { ButtonType, TableActionDef, TableColumnDef, TableDef, TableEditType } from '../../../types/Table';
 import { CarConnectorConnectionDialogComponent } from './connection/car-connector-connection.dialog.component';
 
 @Injectable()
@@ -128,7 +129,7 @@ export class SettingsCarConnectorConnectionEditableTableDataSource extends Edita
     ];
   }
 
-  public buildTableFiltersDef(): TableFilterDef[] {
+  public buildTableFiltersDef(): FilterDef[] {
     return [];
   }
 

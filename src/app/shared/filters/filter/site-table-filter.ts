@@ -1,12 +1,13 @@
-import { SitesDialogComponent } from '../../../shared/dialogs/sites/sites-dialog.component';
-import { FilterType, TableFilterDef } from '../../../types/Table';
-import { TableFilter } from './table-filter';
+import { FilterDef, FilterType } from 'types/Filters';
 
-export class SiteTableFilter extends TableFilter {
-  public constructor(dependentFilters?: TableFilterDef[]) {
+import { SitesDialogComponent } from '../../../shared/dialogs/sites/sites-dialog.component';
+import { BaseFilter } from './base-filter';
+
+export class SiteTableFilter extends BaseFilter {
+  public constructor(dependentFilters?: FilterDef[]) {
     super();
     // Define filter
-    const filterDef: TableFilterDef = {
+    const filterDef: FilterDef = {
       id: 'sites',
       httpId: 'SiteID',
       type: FilterType.DIALOG_TABLE,

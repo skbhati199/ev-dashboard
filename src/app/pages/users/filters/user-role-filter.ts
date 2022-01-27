@@ -1,15 +1,16 @@
+import { BaseFilter } from 'shared/filters/filter/base-filter';
+import { FilterDef, FilterType } from 'types/Filters';
+
 import { CentralServerService } from '../../../services/central-server.service';
 import { UserRoles } from '../../../shared/model/users.model';
-import { TableFilter } from '../../../shared/table/filters/table-filter';
-import { FilterType, TableFilterDef } from '../../../types/Table';
 
-export class UserRoleFilter extends TableFilter {
+export class UserRoleFilter extends BaseFilter {
   public constructor(
     private centralServerService: CentralServerService) {
     super();
     const items = UserRoles.getAvailableRoles(this.centralServerService.getLoggedUser().role);
     // Define filter
-    const filterDef: TableFilterDef = {
+    const filterDef: FilterDef = {
       id: 'role',
       httpId: 'Role',
       type: FilterType.DROPDOWN,

@@ -1,12 +1,13 @@
-import { SiteAreasDialogComponent } from '../../../shared/dialogs/site-areas/site-areas-dialog.component';
-import { FilterType, TableFilterDef } from '../../../types/Table';
-import { TableFilter } from './table-filter';
+import { FilterDef, FilterType } from 'types/Filters';
 
-export class SiteAreaTableFilter extends TableFilter {
-  public constructor(dependentFilters?: TableFilterDef[]) {
+import { SiteAreasDialogComponent } from '../../../shared/dialogs/site-areas/site-areas-dialog.component';
+import { BaseFilter } from './base-filter';
+
+export class SiteAreaTableFilter extends BaseFilter {
+  public constructor(dependentFilters?: FilterDef[]) {
     super();
     // Define filter
-    const filterDef: TableFilterDef = {
+    const filterDef: FilterDef = {
       id: 'siteAreas',
       httpId: 'SiteAreaID',
       type: FilterType.DIALOG_TABLE,

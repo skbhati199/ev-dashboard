@@ -3,6 +3,7 @@ import { MatDialog } from '@angular/material/dialog';
 import { Router } from '@angular/router';
 import { TranslateService } from '@ngx-translate/core';
 import { Observable } from 'rxjs';
+import { FilterDef } from 'types/Filters';
 import { User } from 'types/User';
 
 import { CentralServerService } from '../../../services/central-server.service';
@@ -20,7 +21,7 @@ import { TableEditTenantAction, TableEditTenantActionDef } from '../../../shared
 import { TableDataSource } from '../../../shared/table/table-data-source';
 import { DataResult } from '../../../types/DataResult';
 import { ButtonAction } from '../../../types/GlobalType';
-import { TableActionDef, TableColumnDef, TableDef, TableFilterDef } from '../../../types/Table';
+import { TableActionDef, TableColumnDef, TableDef } from '../../../types/Table';
 import { Tenant, TenantButtonAction } from '../../../types/Tenant';
 import { Utils } from '../../../utils/Utils';
 import { TenantLogoFormatterCellComponent } from '../cell-components/tenant-logo-formatter-cell.component';
@@ -204,7 +205,7 @@ export class TenantsListTableDataSource extends TableDataSource<Tenant> {
     ];
   }
 
-  public buildTableFiltersDef(): TableFilterDef[] {
+  public buildTableFiltersDef(): FilterDef[] {
     return [];
   }
 }

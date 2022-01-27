@@ -10,6 +10,8 @@ import { CentralServerService } from '../../../services/central-server.service';
 import { DialogService } from '../../../services/dialog.service';
 import { MessageService } from '../../../services/message.service';
 import { SpinnerService } from '../../../services/spinner.service';
+import { CarMakerTableFilter } from '../../../shared/filters/filter/car-maker-table-filter';
+import { UserTableFilter } from '../../../shared/filters/filter/user-table-filter';
 import { AppDatePipe } from '../../../shared/formatters/app-date.pipe';
 import { AppUnitPipe } from '../../../shared/formatters/app-unit.pipe';
 import { TableCreateCarAction, TableCreateCarActionDef } from '../../../shared/table/actions/cars/table-create-car-action';
@@ -17,12 +19,11 @@ import { TableDeleteCarAction, TableDeleteCarActionDef } from '../../../shared/t
 import { TableEditCarAction, TableEditCarActionDef } from '../../../shared/table/actions/cars/table-edit-car-action';
 import { TableAutoRefreshAction } from '../../../shared/table/actions/table-auto-refresh-action';
 import { TableRefreshAction } from '../../../shared/table/actions/table-refresh-action';
-import { CarMakerTableFilter } from '../../../shared/table/filters/car-maker-table-filter';
-import { UserTableFilter } from '../../../shared/table/filters/user-table-filter';
 import { TableDataSource } from '../../../shared/table/table-data-source';
 import { Car, CarButtonAction, CarConverter, CarType } from '../../../types/Car';
 import { DataResult } from '../../../types/DataResult';
-import { TableActionDef, TableColumnDef, TableDef, TableFilterDef } from '../../../types/Table';
+import { FilterDef } from '../../../types/Filters';
+import { TableActionDef, TableColumnDef, TableDef } from '../../../types/Table';
 import { User } from '../../../types/User';
 import { Utils } from '../../../utils/Utils';
 import { CarDialogComponent } from '../car/car-dialog.component';
@@ -232,8 +233,8 @@ export class CarsListTableDataSource extends TableDataSource<Car> {
     }
   }
 
-  public buildTableFiltersDef(): TableFilterDef[] {
-    const tableFilterDef: TableFilterDef[] = [];
+  public buildTableFiltersDef(): FilterDef[] {
+    const tableFilterDef: FilterDef[] = [];
     if (this.authorizationService.canListUsers()) {
       tableFilterDef.push(new UserTableFilter().getFilterDef());
     }

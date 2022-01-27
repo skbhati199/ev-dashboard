@@ -4,8 +4,15 @@ import { Router } from '@angular/router';
 import { TranslateService } from '@ngx-translate/core';
 import { Observable } from 'rxjs';
 import { TransactionDialogComponent } from 'shared/dialogs/transaction/transaction-dialog.component';
-import { ConnectorTableFilter } from 'shared/table/filters/connector-table-filter';
+import { ChargingStationTableFilter } from 'shared/filters/filter/charging-station-table-filter';
+import { ConnectorTableFilter } from 'shared/filters/filter/connector-table-filter';
+import { IssuerFilter } from 'shared/filters/filter/issuer-filter';
+import { SiteAreaTableFilter } from 'shared/filters/filter/site-area-table-filter';
+import { SiteTableFilter } from 'shared/filters/filter/site-table-filter';
+import { TagTableFilter } from 'shared/filters/filter/tag-table-filter';
+import { UserTableFilter } from 'shared/filters/filter/user-table-filter';
 import { CarCatalog } from 'types/Car';
+import { FilterDef } from 'types/Filters';
 import { Constants } from 'utils/Constants';
 
 import { AuthorizationService } from '../../../services/authorization.service';
@@ -29,17 +36,11 @@ import { TableMoreAction } from '../../../shared/table/actions/table-more-action
 import { TableOpenURLActionDef } from '../../../shared/table/actions/table-open-url-action';
 import { TableRefreshAction } from '../../../shared/table/actions/table-refresh-action';
 import { TableViewTransactionAction, TableViewTransactionActionDef, TransactionDialogData } from '../../../shared/table/actions/transactions/table-view-transaction-action';
-import { ChargingStationTableFilter } from '../../../shared/table/filters/charging-station-table-filter';
-import { IssuerFilter } from '../../../shared/table/filters/issuer-filter';
-import { SiteAreaTableFilter } from '../../../shared/table/filters/site-area-table-filter';
-import { SiteTableFilter } from '../../../shared/table/filters/site-table-filter';
-import { TagTableFilter } from '../../../shared/table/filters/tag-table-filter';
-import { UserTableFilter } from '../../../shared/table/filters/user-table-filter';
 import { TableDataSource } from '../../../shared/table/table-data-source';
 import { ChargingStationButtonAction, Connector } from '../../../types/ChargingStation';
 import { DataResult, TransactionDataResult } from '../../../types/DataResult';
 import { LogButtonAction } from '../../../types/Log';
-import { TableActionDef, TableColumnDef, TableDef, TableFilterDef } from '../../../types/Table';
+import { TableActionDef, TableColumnDef, TableDef } from '../../../types/Table';
 import { TenantComponents } from '../../../types/Tenant';
 import { Transaction, TransactionButtonAction } from '../../../types/Transaction';
 import { User } from '../../../types/User';
@@ -338,10 +339,10 @@ export class TransactionsInProgressTableDataSource extends TableDataSource<Trans
     return '';
   }
 
-  public buildTableFiltersDef(): TableFilterDef[] {
-    let userFilter: TableFilterDef;
+  public buildTableFiltersDef(): FilterDef[] {
+    let userFilter: FilterDef;
     const issuerFilter = new IssuerFilter().getFilterDef();
-    const filters: TableFilterDef[] = [issuerFilter];
+    const filters: FilterDef[] = [issuerFilter];
     // Show Site Area Filter If Organization component is active
     if (this.componentService.isActive(TenantComponents.ORGANIZATION)) {
       const siteFilter = new SiteTableFilter([issuerFilter]).getFilterDef();
