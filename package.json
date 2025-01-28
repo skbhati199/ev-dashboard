@@ -100,7 +100,7 @@
     "jquery": "^3.6.0",
     "moment": "^2.29.4",
     "moment-duration-format": "^2.3.2",
-    "moment-timezone": "^0.5.34",
+    "moment-timezone": "^0.5.47",
     "ng2-file-upload": "^1.4.0",
     "ngx-captcha": "^12.0.2",
     "ngx-csv-parser": "^1.2.0",
